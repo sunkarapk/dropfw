@@ -1,5 +1,4 @@
 <?php
-
 /**
  * sunFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
  * Copyright 2010, Sun Web Dev, Inc.
@@ -15,14 +14,15 @@
  * @license         GPLv3
  */
 
-	define('DS', DIRECTORY_SEPARATOR);
-	define('HOST', 'http://'.$_SERVER['HTTP_HOST'].DS);
-	define('ROOT', dirname(__FILE__).DS);
-	define('CORE', ROOT.'sun'.DS);
-	define('APP', ROOT.'app'.DS);
-	define('WWW', APP.'www'.DS);
-	define('URL', $_GET['url']);
+class Object {
 
-	require_once CORE.'boot.php';
+	function __construct() {
+	}
 	
+	function toStr() {
+		return get_class($this);
+	}
+
+}
+
 ?>
