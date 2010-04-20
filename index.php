@@ -1,5 +1,4 @@
 <?php
-
 /**
  * sunFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
  * Copyright 2010, Sun Web Dev, Inc.
@@ -21,8 +20,14 @@
 	define('CORE', ROOT.'sun'.DS);
 	define('APP', ROOT.'app'.DS);
 	define('WWW', APP.'www'.DS);
-	define('URL', $_GET['url']);
+	
+	if(array_key_exists('REDIRECT_STATUS',$_SERVER)) {
+		if((int) $_SERVER['REDIRECT_STATUS'] == 200)
+			define('URL', $_SERVER['REDIRECT_QUERY_STRING']);
+	} else {
+		define('URL', $_SERVER['PATH_INFO']);
+	}
 
 	require_once CORE.'boot.php';
-	
+
 ?>
