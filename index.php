@@ -21,6 +21,11 @@
 	define('APP', ROOT.'app'.DS);
 	define('WWW', APP.'www'.DS);
 	
+/**
+ * Detects the correct URL excluding the base directory
+ * Works without the consideration of  rewrite engine
+ * @author	Pavan Kumar Sunkara
+ */	
 	if(array_key_exists('REDIRECT_STATUS',$_SERVER)) {
 		if((int) $_SERVER['REDIRECT_STATUS'] == 200)
 			define('URL', $_SERVER['REDIRECT_QUERY_STRING']);
@@ -28,6 +33,14 @@
 		define('URL', $_SERVER['PATH_INFO']);
 	}
 
+/**
+ * Include boot.php which loads all the files
+ */
 	require_once CORE.'boot.php';
+
+/**
+ * Include index.php which does the main dispatching and outputing
+ */	
+	require_once WWW.'index.php';
 
 ?>

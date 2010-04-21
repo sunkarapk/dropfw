@@ -14,15 +14,12 @@
  * @license         GPLv3
  */
 
-class Dispatcher extends Object {
-
-/**
- * Constructor.
- */
-	function __construct() {
-	
-	}
-
-}
+    // Enable output buffering
+    ob_start();
+    
+    
+    
+    // Flush output buffer
+    ob_flush();
 
 ?>

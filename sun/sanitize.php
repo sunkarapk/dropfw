@@ -14,7 +14,7 @@
  * @license         GPLv3
  */
 
-class Dispatcher extends Object {
+class Sanitize extends Object {
 
 /**
  * Constructor.

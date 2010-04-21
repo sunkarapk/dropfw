@@ -14,7 +14,7 @@
  * @license         GPLv3
  */
 
-class Dispatcher extends Object {
+class Pay extends Object {
 
 /**
  * Constructor.

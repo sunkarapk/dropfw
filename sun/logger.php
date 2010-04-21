@@ -14,7 +14,7 @@
  * @license         GPLv3
  */
 
-class Dispatcher extends Object {
+class Logger extends Object {
 
 /**
  * Constructor.
