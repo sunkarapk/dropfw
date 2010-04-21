@@ -27,10 +27,13 @@
  * @author	Pavan Kumar Sunkara
  */	
 	if(array_key_exists('REDIRECT_STATUS',$_SERVER)) {
-		if((int) $_SERVER['REDIRECT_STATUS'] == 200)
+		if((int) $_SERVER['REDIRECT_STATUS'] == 200) {
 			define('URL', $_SERVER['REDIRECT_QUERY_STRING']);
+			$redirection = true;
+		}
 	} else {
 		define('URL', $_SERVER['PATH_INFO']);
+		$redirection = false;
 	}
 
 /**

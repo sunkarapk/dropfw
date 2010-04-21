@@ -61,4 +61,6 @@ class Object {
 		exit($status);
 	}
 
+}
+
 ?>
