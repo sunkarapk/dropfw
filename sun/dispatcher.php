@@ -17,10 +17,81 @@
 class Dispatcher extends Object {
 
 /**
+ * URL base
+ */
+	var $base = null;
+
+/**
+ * Parameters for the URL
+ */
+	var $params = null;
+
+/**
+ * The main URL
+ */
+	var $url = null;
+
+/**
  * Constructor.
  */
-	function __construct() {
+	function __construct($url = null) {
+		$this->url = $url;
+		if (Configure::read('rewrite')) {
+			$this->base = HOST;
+		} else {
+			$this->base = HOST. Configure::read('App.base') .DS;
+		}
+		$this->params = $this->extract();
+		return $this->dispatch();
+	}
 	
+/**
+ * Main Dispatcher
+ * @return array $params Array with keys 'controller', 'action', 'params'
+ * @return boolean Success
+ */
+	function dispatch() {
+
+	}
+
+/**
+ * Extracting controller, action and parameters from the URL
+ * @param mixed $url relative URL, like "/products/edit/92" or "/presidents/elect/4"
+ * @return array $params Array with keys 'controller', 'action', 'params'
+ */
+	function extract() {
+		$params = array();
+		$url = explode('/',$this->url);
+		
+		if (empty($url[0])) {
+			array_shift($url);
+		}
+		
+		if (empty($url[0])) {
+			$params['controller'] = 'pages';
+		} else {
+			$params['controller'] = $url[0];
+		}
+		
+		array_shift($url);
+		
+		if (empty($url[0])) {
+			$params['action'] = 'index';
+		} else {
+			$params['action'] = $url[0];
+		}
+		
+		array_shift($url);
+		
+		foreach ($url as $key=>$val) {
+			if (!empty($val)) {
+				$params['params'][$key] = $val;
+			} else {
+				break;
+			}
+		}
+		
+		return $params;
 	}
 
 }

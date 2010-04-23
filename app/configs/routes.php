@@ -14,18 +14,10 @@
  * @license         GPLv3
  */
 
-	define('CONFIGS', APP.'config'.DS);
-	
-	define('CONTROLLERS', APP.'controllers'.DS);
-	
-	define('MODELS', APP.'models'.DS);
-	
-	define('VIEWS', APP.'views'.DS);
-	
-	define('CSS', WWW.'css'.DS);
-	
-	define('IMG', WWW.'img'.DS);
-	
-	define('JS', WWW.'js'.DS);
+/**
+ * Here, we are connecting '/' (base path) to controller called 'Pages' and action 'home'
+ * (in this case, /app/views/pages/home.ctp)...
+ */
+	Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
 
 ?>

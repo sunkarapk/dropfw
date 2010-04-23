@@ -37,6 +37,13 @@
 	Configure::write('rewrite',$redirection);
 
 /**
+ * Base script for all URL's
+ * generally index.php
+ * If changed here, It needs to be changed in .htaccess too
+ */
+	Configure::write('App.base', 'index.php');
+
+/**
  * Configuration for Access control lists
  * Usage: "$ACL->"
  */	
