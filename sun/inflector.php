@@ -18,82 +18,82 @@ class Inflector extends Object {
 /**
  * Pluralized words.
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $pluralized = array();
+	public static $pluralized = array();
 
 /**
  * List of pluralization rules in the form of pattern => replacement.
  *
- * @var array
+ * @public static array
  * @access public
  **/
-	var $pluralRules = array();
+	public static $pluralRules = array();
 
 /**
  * Singularized words.
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $singularized = array();
+	public static $singularized = array();
 
 /**
  * List of singularization rules in the form of pattern => replacement.
  *
- * @var array
+ * @public static array
  * @access public
  **/
-	var $singularRules = array();
+	public static $singularRules = array();
 
 /**
  * Plural rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__pluralRules = array();
+	public static $__pluralRules = array();
 
 /**
  * Un-inflected plural rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__uninflectedPlural = array();
+	public static $__uninflectedPlural = array();
 
 /**
  * Irregular plural rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__irregularPlural = array();
+	public static $__irregularPlural = array();
 
 /**
  * Singular rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__singularRules = array();
+	public static $__singularRules = array();
 
 /**
  * Un-inflectd singular rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__uninflectedSingular = array();
+	public static $__uninflectedSingular = array();
 
 /**
  * Irregular singular rules from inflections.php
  *
- * @var array
+ * @public static array
  * @access private
  **/
-	var $__irregularSingular = array();
+	public static $__irregularSingular = array();
 
 /**
  * Constructor
@@ -101,12 +101,12 @@ class Inflector extends Object {
 	function __construct() {
 		if (file_exists(CONFIGS.'inflections.php')) {
 			include(CONFIGS.'inflections.php');
-			$this->__pluralRules = $pluralRules;
-			$this->__uninflectedPlural = $uninflectedPlural;
-			$this->__irregularPlural = $irregularPlural;
-			$this->__singularRules = $singularRules;
-			$this->__uninflectedSingular = $uninflectedPlural;
-			$this->__irregularSingular = array_flip($irregularPlural);
+			self::$__pluralRules = $pluralRules;
+			self::$__uninflectedPlural = $uninflectedPlural;
+			self::$__irregularPlural = $irregularPlural;
+			self::$__singularRules = $singularRules;
+			self::$__uninflectedSingular = $uninflectedPlural;
+			self::$__irregularSingular = array_flip($irregularPlural);
 		}
 	}
 
@@ -184,12 +184,12 @@ class Inflector extends Object {
 			'trilby' => 'trilbys',
 			'turf' => 'turfs');
 
-		$pluralRules = Set::pushDiff($this->__pluralRules, $corePluralRules);
-		$uninflected = Set::pushDiff($this->__uninflectedPlural, $coreUninflectedPlural);
-		$irregular = Set::pushDiff($this->__irregularPlural, $coreIrregularPlural);
+		$pluralRules = Set::pushDiff(self::$__pluralRules, $corePluralRules);
+		$uninflected = Set::pushDiff(self::$__uninflectedPlural, $coreUninflectedPlural);
+		$irregular = Set::pushDiff(self::$__irregularPlural, $coreIrregularPlural);
 
-		$this->pluralRules = array('pluralRules' => $pluralRules, 'uninflected' => $uninflected, 'irregular' => $irregular);
-		$this->pluralized = array();
+		self::$pluralRules = array('pluralRules' => $pluralRules, 'uninflected' => $uninflected, 'irregular' => $irregular);
+		self::$pluralized = array();
 	}
 
 /**
@@ -199,40 +199,38 @@ class Inflector extends Object {
  * @return string Word in plural
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function pluralize($word) {
-		$_this =& Inflector::getInstance();
-		if (!isset($_this->pluralRules) || empty($_this->pluralRules)) {
-			$_this->__initPluralRules();
+		if (!isset(self::$pluralRules) || empty(self::$pluralRules)) {
+			self::__initPluralRules();
 		}
 
-		if (isset($_this->pluralized[$word])) {
-			return $_this->pluralized[$word];
+		if (isset(self::$pluralized[$word])) {
+			return self::$pluralized[$word];
 		}
-		extract($_this->pluralRules);
+		extract(self::$pluralRules);
 
 		if (!isset($regexUninflected) || !isset($regexIrregular)) {
 			$regexUninflected = __enclose(join( '|', $uninflected));
 			$regexIrregular = __enclose(join( '|', array_keys($irregular)));
-			$_this->pluralRules['regexUninflected'] = $regexUninflected;
-			$_this->pluralRules['regexIrregular'] = $regexIrregular;
+			self::$pluralRules['regexUninflected'] = $regexUninflected;
+			self::$pluralRules['regexIrregular'] = $regexIrregular;
 		}
 
 		if (preg_match('/^(' . $regexUninflected . ')$/i', $word, $regs)) {
-			$_this->pluralized[$word] = $word;
+			self::$pluralized[$word] = $word;
 			return $word;
 		}
 
 		if (preg_match('/(.*)\\b(' . $regexIrregular . ')$/i', $word, $regs)) {
-			$_this->pluralized[$word] = $regs[1] . substr($word, 0, 1) . substr($irregular[strtolower($regs[2])], 1);
-			return $_this->pluralized[$word];
+			self::$pluralized[$word] = $regs[1] . substr($word, 0, 1) . substr($irregular[strtolower($regs[2])], 1);
+			return self::$pluralized[$word];
 		}
 
 		foreach ($pluralRules as $rule => $replacement) {
 			if (preg_match($rule, $word)) {
-				$_this->pluralized[$word] = preg_replace($rule, $replacement, $word);
-				return $_this->pluralized[$word];
+				self::$pluralized[$word] = preg_replace($rule, $replacement, $word);
+				return self::$pluralized[$word];
 			}
 		}
 	}
@@ -325,12 +323,12 @@ class Inflector extends Object {
 			'waves' => 'wave'
 		);
 
-		$singularRules = Set::pushDiff($this->__singularRules, $coreSingularRules);
-		$uninflected = Set::pushDiff($this->__uninflectedSingular, $coreUninflectedSingular);
-		$irregular = Set::pushDiff($this->__irregularSingular, $coreIrregularSingular);
+		$singularRules = Set::pushDiff(self::$__singularRules, $coreSingularRules);
+		$uninflected = Set::pushDiff(self::$__uninflectedSingular, $coreUninflectedSingular);
+		$irregular = Set::pushDiff(self::$__irregularSingular, $coreIrregularSingular);
 
-		$this->singularRules = array('singularRules' => $singularRules, 'uninflected' => $uninflected, 'irregular' => $irregular);
-		$this->singularized = array();
+		self::$singularRules = array('singularRules' => $singularRules, 'uninflected' => $uninflected, 'irregular' => $irregular);
+		self::$singularized = array();
 	}
 
 /**
@@ -340,43 +338,41 @@ class Inflector extends Object {
  * @return string Word in singular
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function singularize($word) {
-		$_this =& Inflector::getInstance();
-		if (!isset($_this->singularRules) || empty($_this->singularRules)) {
-			$_this->__initSingularRules();
+		if (!isset(self::$singularRules) || empty(self::$singularRules)) {
+			self::__initSingularRules();
 		}
 
-		if (isset($_this->singularized[$word])) {
-			return $_this->singularized[$word];
+		if (isset(self::$singularized[$word])) {
+			return self::$singularized[$word];
 		}
-		extract($_this->singularRules);
+		extract(self::$singularRules);
 
 		if (!isset($regexUninflected) || !isset($regexIrregular)) {
-			$regexUninflected = __enclose(join( '|', $uninflected));
-			$regexIrregular = __enclose(join( '|', array_keys($irregular)));
-			$_this->singularRules['regexUninflected'] = $regexUninflected;
-			$_this->singularRules['regexIrregular'] = $regexIrregular;
+			$regexUninflected = self::__enclose(join( '|', $uninflected));
+			$regexIrregular = self::__enclose(join( '|', array_keys($irregular)));
+			self::$singularRules['regexUninflected'] = $regexUninflected;
+			self::$singularRules['regexIrregular'] = $regexIrregular;
 		}
 
 		if (preg_match('/^(' . $regexUninflected . ')$/i', $word, $regs)) {
-			$_this->singularized[$word] = $word;
+			self::$singularized[$word] = $word;
 			return $word;
 		}
 
 		if (preg_match('/(.*)\\b(' . $regexIrregular . ')$/i', $word, $regs)) {
-			$_this->singularized[$word] = $regs[1] . substr($word, 0, 1) . substr($irregular[strtolower($regs[2])], 1);
-			return $_this->singularized[$word];
+			self::$singularized[$word] = $regs[1] . substr($word, 0, 1) . substr($irregular[strtolower($regs[2])], 1);
+			return self::$singularized[$word];
 		}
 
 		foreach ($singularRules as $rule => $replacement) {
 			if (preg_match($rule, $word)) {
-				$_this->singularized[$word] = preg_replace($rule, $replacement, $word);
-				return $_this->singularized[$word];
+				self::$singularized[$word] = preg_replace($rule, $replacement, $word);
+				return self::$singularized[$word];
 			}
 		}
-		$_this->singularized[$word] = $word;
+		self::$singularized[$word] = $word;
 		return $word;
 	}
 
@@ -430,7 +426,7 @@ class Inflector extends Object {
  * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function tableize($className) {
-		return Inflector::pluralize(Inflector::underscore($className));
+		return self::pluralize(self::underscore($className));
 	}
 
 /**
@@ -443,20 +439,20 @@ class Inflector extends Object {
  * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function classify($tableName) {
-		return Inflector::camelize(Inflector::singularize($tableName));
+		return self::camelize(self::singularize($tableName));
 	}
 
 /**
  * Returns camelBacked version of an underscored string.
  *
  * @param string $string
- * @return string in variable form
+ * @return string in public staticiable form
  * @access public
  * @static
  * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function variable($string) {
-		$string = Inflector::camelize(Inflector::underscore($string));
+		$string = self::camelize(self::underscore($string));
 		$replace = strtolower(substr($string, 0, 1));
 		return preg_replace('/\\w/', $replace, $string, 1);
 	}

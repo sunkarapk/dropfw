@@ -47,11 +47,10 @@ class Router extends Object {
 				if($params['action'] == self::$map[$i][0]['action']) {
 					$params['controller'] = self::$map[$i][1]['controller'];
 					$params['action'] = self::$map[$i][1]['action'];
-
-					return $params;
 				}
 			}
 		}
+		return $params;
 	}
 
 /**

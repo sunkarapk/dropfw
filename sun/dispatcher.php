@@ -51,26 +51,19 @@ class Dispatcher extends Object {
  * @return boolean Success
  */
 	function dispatch() {
+		$this->params = Router::getLink($this->params);
+
 		$filename = $this->params['controller'].'.php';
 		$classname = Inflector::camelize($this->params['controller'].'_controller');
 
 		if(file_exists(CONTROLLERS.$filename))
 			require_once CONTROLLERS.$filename;
-		else {
-				$this->params = Router::getLink($this->params);
-
-				$filename = $this->params['controller'].'.php';
-				$classname = Inflector::camelize($this->params['controller'].'_controller');
-
-				if(file_exists(CONTROLLERS.$filename))
-					require_once CONTROLLERS.$filename;
-		}
 
 		if(!class_exists($classname)) {
 			print "Missing $classname";
 		}
 		else {
-			print $classname;
+			eval("\$controllerVar = new $classname();");
 		}
 	}
 
