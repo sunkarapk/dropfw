@@ -14,7 +14,7 @@
  * @license         GPLv3
  */
 
-	define('CONFIGS', APP.'config'.DS);
+	define('CONFIGS', APP.'configs'.DS);
 	
 	define('CONTROLLERS', APP.'controllers'.DS);
 	

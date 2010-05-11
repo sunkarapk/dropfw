@@ -54,6 +54,12 @@
 	}
 
 /**
+ * Basic class for Controllers
+ * Usage: "Controller::"
+ */
+	require_once CORE.'controller.php';
+
+/**
  * Basic class for parsing and dispatching URLs
  * Usage: "$Dispatcher->"
  */
@@ -130,6 +136,12 @@
 	if(Configure::read('lib.rss')) {
 		require_once CORE.'rss.php';
 	}
+
+/**
+ * Basic class for routing actions and pages
+ * Usage: "Router::"
+ */
+	require_once CORE.'router.php';
 
 /**
  * Basic class for sanitizing strings and conversion

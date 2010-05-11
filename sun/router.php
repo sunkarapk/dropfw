@@ -14,63 +14,43 @@
  * @license         GPLv3
  */
 
-class Dispatcher extends Object {
+class Router extends Object {
 
 /**
- * URL base
+ * Route mapping variable
  */
-	var $base = null;
-
-/**
- * Parameters for the URL
- */
-	var $params = null;
-
-/**
- * The main URL
- */
-	var $url = null;
+	protected static $map = array();
 
 /**
  * Constructor.
  */
-	function __construct($url = null) {
-		$this->url = $url;
-		if (Configure::read('rewrite')) {
-			$this->base = HOST;
-		} else {
-			$this->base = HOST. Configure::read('App.base') .DS;
-		}
-		$this->params = $this->extract();
-		return $this->dispatch();
-	}
+	function __construct() {
 	
+	}
+
 /**
- * Main Dispatcher
- * @return array $params Array with keys 'controller', 'action', 'params'
- * @return boolean Success
+ * Connector which connects one URL to another params.
+ * @param mixed $url relative URL, like "/products/edit/92" or "/presidents/elect/4"
  */
-	function dispatch() {
-		$filename = $this->params['controller'].'.php';
-		$classname = Inflector::camelize($this->params['controller'].'_controller');
+	function connect($url,$params) {
+		$paramsnew = self::extract($url);
+		array_push(self::$map,array($paramsnew,$params));
+	}
 
-		if(file_exists(CONTROLLERS.$filename))
-			require_once CONTROLLERS.$filename;
-		else {
-				$this->params = Router::getLink($this->params);
+/**
+ * GetLink which examines the params it recieve and do proper inclusion if connected
+ * @param mixed $params
+ */
+	function getLink($params) {
+		for($i=0;!empty(self::$map[$i]);$i++) {
+			if($params['controller'] == self::$map[$i][0]['controller']) {
+				if($params['action'] == self::$map[$i][0]['action']) {
+					$params['controller'] = self::$map[$i][1]['controller'];
+					$params['action'] = self::$map[$i][1]['action'];
 
-				$filename = $this->params['controller'].'.php';
-				$classname = Inflector::camelize($this->params['controller'].'_controller');
-
-				if(file_exists(CONTROLLERS.$filename))
-					require_once CONTROLLERS.$filename;
-		}
-
-		if(!class_exists($classname)) {
-			print "Missing $classname";
-		}
-		else {
-			print $classname;
+					return $params;
+				}
+			}
 		}
 	}
 
@@ -79,9 +59,9 @@ class Dispatcher extends Object {
  * @param mixed $url relative URL, like "/products/edit/92" or "/presidents/elect/4"
  * @return array $params Array with keys 'controller', 'action', 'params'
  */
-	function extract() {
+	function extract($url) {
 		$params = array();
-		$url = explode('/',$this->url);
+		$url = explode('/',$url);
 		
 		if (empty($url[0])) {
 			array_shift($url);
@@ -110,7 +90,6 @@ class Dispatcher extends Object {
 				break;
 			}
 		}
-
 		return $params;
 	}
 

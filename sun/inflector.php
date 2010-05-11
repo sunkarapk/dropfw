@@ -497,7 +497,6 @@ class Inflector extends Object {
 		);
 		return preg_replace(array_keys($map), array_values($map), $string);
 	}
-}
 
 /**
  * Enclose a string for preg matching.

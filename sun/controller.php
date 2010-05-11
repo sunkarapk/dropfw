@@ -14,6 +14,15 @@
  * @license         GPLv3
  */
 
-    $dispatch = new Dispatcher(URL);
+class Controller extends Object {
+
+/**
+ * Constructor.
+ */
+	function __construct($name) {
+	
+	}
+
+}
 
 ?>

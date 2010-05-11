@@ -18,6 +18,6 @@
  * Here, we are connecting '/' (base path) to controller called 'Pages' and action 'home'
  * (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'home'));
+	Router::connect('/', array('controller' => 'ps', 'action' => 'home'));
 
 ?>
