@@ -188,6 +188,12 @@
 	require_once CORE.'validation.php';
 
 /**
+ * Basic class for View
+ * Usage: "View::"
+ */
+	require_once CORE.'view.php';
+
+/**
  * Basic class for using XML
  * Usage: "$XML->"
  */

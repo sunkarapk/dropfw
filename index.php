@@ -29,10 +29,15 @@
 	if(array_key_exists('REDIRECT_STATUS',$_SERVER)) {
 		if((int) $_SERVER['REDIRECT_STATUS'] == 200) {
 			define('URL', $_SERVER['REDIRECT_QUERY_STRING']);
+			$subdirUrl = explode("/",$_SERVER['SCRIPT_NAME']);
+			array_pop($subdirUrl);
+			$subdirUrl = implode("/",$subdirUrl);
+			define('BASE', HOST.$subdirUrl.DS);
 			$redirection = true;
 		}
 	} else {
 		define('URL', $_SERVER['PATH_INFO']);
+		define('BASE', HOST.$_SERVER['SCRIPT_NAME'].DS);
 		$redirection = false;
 	}
 

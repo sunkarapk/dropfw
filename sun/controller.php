@@ -114,17 +114,6 @@ class Controller extends Object {
 	var $autoRender = true;
 
 /**
- * Array containing the names of components this controller uses. Component names
- * should not contain the "Component" portion of the classname.
- *
- * Example: var $components = array('Session', 'RequestHandler', 'Acl');
- *
- * @var array
- * @access public
- */
-	var $components = array();
-
-/**
  * The output of the requested action.  Contains either a variable
  * returned from the action, or the data of the rendered view;
  * You can use this var in child controllers' afterFilter() callbacks to alter output.
@@ -224,14 +213,35 @@ class Controller extends Object {
 			$modelClass = $this->modelClass;
 		}
 
-		if(file_exists(MODELS.$modelClass.'.php'))
-			require_once MODELS.$modelClass.'.php';
+		$umodel = Inflector::underscore($modelClass);
+
+		if(file_exists(MODELS.$umodel.'.php'))
+			require_once MODELS.$umodel.'.php';
 
 		if (!class_exists($modelClass)) {
 			print "Missing $modelClass";
 		}
 		else
 			eval("\$this->$modelClass = new $modelClass(); ");
+
+	}
+
+/**
+ * Loads and instantiates helpers required by this controller.
+ * @param string $helperClass Name of helper class to load
+ * @return mixed true when single model found and instance created error returned if models not found.
+ * @access public
+ */
+	function loadHelper($helperClass = null) {
+		$uhelper = Inflector::underscore($helperClass);
+		if(file_exists(CORE.$uhelper.'.php'))
+			require_once CORE.$uhelper.'.php';
+
+		if (!class_exists($helperClass)) {
+			print "Missing $helperClass";
+		}
+		else
+			eval("\$this->$uhelper = new $helperClass(); ");
 
 	}
 
@@ -316,7 +326,7 @@ class Controller extends Object {
 			$this->header($status);
 		}
 		if ($url !== null) {
-			$this->header('Location: ');
+			$this->header('Location: '.BASE.$url);
 		}
 
 		if (!empty($status) && ($status >= 300 && $status < 400)) {
@@ -327,6 +337,7 @@ class Controller extends Object {
 			$this->stop();
 		}
 	}
+
 /**
  * Convenience method for header()
  *
@@ -337,6 +348,7 @@ class Controller extends Object {
 	function header($status) {
 		header($status);
 	}
+
 /**
  * Saves a variable for use inside a view template.
  *
@@ -345,7 +357,6 @@ class Controller extends Object {
  *   Unused if $one is an associative array, otherwise serves as the values to $one's keys.
  * @return void
  * @access public
- * @link http://book.cakephp.org/view/427/set
  */
 	function set($one, $two = null) {
 		$data = array();
@@ -372,6 +383,7 @@ class Controller extends Object {
 			}
 		}
 	}
+
 /**
  * Internally redirects one action to another. Examples:
  *
@@ -390,17 +402,7 @@ class Controller extends Object {
 		unset($args[0]);
 		return call_user_func_array(array(&$this, $action), $args);
 	}
-/**
- * Controller callback to tie into Auth component. Only called when AuthComponent::authorize is set to 'controller'.
- *
- * @return bool true if authorized, false otherwise
- * @access public
- * @link http://book.cakephp.org/view/396/authorize
- */
-	function isAuthorized() {
-		trigger_error(sprintf(__('%s::isAuthorized() is not defined.', true), $this->name), E_USER_WARNING);
-		return false;
-	}
+
 /**
  * Returns number of errors in a submitted FORM.
  *
@@ -416,6 +418,7 @@ class Controller extends Object {
 		}
 		return count($errors);
 	}
+
 /**
  * Validates models passed by parameters. Example:
  *
@@ -440,6 +443,7 @@ class Controller extends Object {
 
 		return $this->validationErrors = (count($errors) ? $errors : false);
 	}
+
 /**
  * Instantiates the correct view class, hands it its data, and uses it to render the view output.
  *
@@ -448,94 +452,24 @@ class Controller extends Object {
  * @param string $file File to use for rendering
  * @return string Full output string of view contents
  * @access public
- * @link http://book.cakephp.org/view/428/render
  */
 	function render($action = null, $layout = null, $file = null) {
 		$this->beforeRender();
-
-		$viewClass = $this->view;
-		if ($this->view != 'View') {
-			if (strpos($viewClass, '.') !== false) {
-				list($plugin, $viewClass) = explode('.', $viewClass);
-			}
-			$viewClass = $viewClass . 'View';
-			App::import('View', $this->view);
-		}
-
-		$this->Component->beforeRender($this);
-
-		$this->params['models'] = $this->modelNames;
-
-		if (Configure::read() > 2) {
-			$this->set('cakeDebug', $this);
-		}
-
-		$View =& new $viewClass($this);
-
-		if (!empty($this->modelNames)) {
-			$models = array();
-			foreach ($this->modelNames as $currentModel) {
-				if (isset($this->$currentModel) && is_a($this->$currentModel, 'Model')) {
-					$models[] = Inflector::underscore($currentModel);
-				}
-				if (isset($this->$currentModel) && is_a($this->$currentModel, 'Model') && !empty($this->$currentModel->validationErrors)) {
-					$View->validationErrors[Inflector::camelize($currentModel)] =& $this->$currentModel->validationErrors;
-				}
-			}
-			$models = array_diff(ClassRegistry::keys(), $models);
-			foreach ($models as $currentModel) {
-				if (ClassRegistry::isKeySet($currentModel)) {
-					$currentObject =& ClassRegistry::getObject($currentModel);
-					if (is_a($currentObject, 'Model') && !empty($currentObject->validationErrors)) {
-						$View->validationErrors[Inflector::camelize($currentModel)] =& $currentObject->validationErrors;
-					}
-				}
-			}
-		}
 
 		$this->autoRender = false;
 		$this->output .= $View->render($action, $layout, $file);
 
 		return $this->output;
 	}
-/**
- * Returns the referring URL for this request.
- *
- * @param string $default Default URL to use if HTTP_REFERER cannot be read from headers
- * @param boolean $local If true, restrict referring URLs to local server
- * @return string Referring URL
- * @access public
- * @link http://book.cakephp.org/view/430/referer
- */
-	function referer($default = null, $local = false) {
-		$ref = env('HTTP_REFERER');
-		if (!empty($ref) && defined('FULL_BASE_URL')) {
-			$base = FULL_BASE_URL . $this->webroot;
-			if (strpos($ref, $base) === 0) {
-				$return =  substr($ref, strlen($base));
-				if ($return[0] != '/') {
-					$return = '/'.$return;
-				}
-				return $return;
-			} elseif (!$local) {
-				return $ref;
-			}
-		}
 
-		if ($default != null) {
-			return $default;
-		}
-		return '/';
-	}
 /**
  * Forces the user's browser not to cache the results of the current request.
  *
  * @return void
  * @access public
- * @link http://book.cakephp.org/view/431/disableCache
  */
 	function disableCache() {
-		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Expires: Mon, 28 Jul 1997 05:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
 		header("Cache-Control: post-check=0, pre-check=0", false);
@@ -551,69 +485,14 @@ class Controller extends Object {
  * @param integer $pause Time to show the message
  * @return void Renders flash layout
  * @access public
- * @link http://book.cakephp.org/view/426/flash
  */
 	function flash($message, $url, $pause = 1) {
 		$this->autoRender = false;
-		$this->set('url', Router::url($url));
+		$this->set('url', BASE.$url);
 		$this->set('message', $message);
 		$this->set('pause', $pause);
 		$this->set('page_title', $message);
 		$this->render(false, 'flash');
-	}
-/**
- * Converts POST'ed form data to a model conditions array, suitable for use in a Model::find() call.
- *
- * @param array $data POST'ed data organized by model and field
- * @param mixed $op A string containing an SQL comparison operator, or an array matching operators to fields
- * @param string $bool SQL boolean operator: AND, OR, XOR, etc.
- * @param boolean $exclusive If true, and $op is an array, fields not included in $op will not be included in the returned conditions
- * @return array An array of model conditions
- * @access public
- * @link http://book.cakephp.org/view/432/postConditions
- */
-	function postConditions($data = array(), $op = null, $bool = 'AND', $exclusive = false) {
-		if (!is_array($data) || empty($data)) {
-			if (!empty($this->data)) {
-				$data = $this->data;
-			} else {
-				return null;
-			}
-		}
-		$cond = array();
-
-		if ($op === null) {
-			$op = '';
-		}
-
-		foreach ($data as $model => $fields) {
-			foreach ($fields as $field => $value) {
-				$key = $model.'.'.$field;
-				$fieldOp = $op;
-				if (is_array($op) && array_key_exists($key, $op)) {
-					$fieldOp = $op[$key];
-				} elseif (is_array($op) && array_key_exists($field, $op)) {
-					$fieldOp = $op[$field];
-				} elseif (is_array($op)) {
-					$fieldOp = false;
-				}
-				if ($exclusive && $fieldOp === false) {
-					continue;
-				}
-				$fieldOp = strtoupper(trim($fieldOp));
-				if ($fieldOp === 'LIKE') {
-					$key = $key.' LIKE';
-					$value = '%'.$value.'%';
-				} elseif ($fieldOp && $fieldOp != '=') {
-					$key = $key.' '.$fieldOp;
-				}
-				$cond[$key] = $value;
-			}
-		}
-		if ($bool != null && strtoupper($bool) != 'AND') {
-			$cond = array($bool => $cond);
-		}
-		return $cond;
 	}
 
 /**
