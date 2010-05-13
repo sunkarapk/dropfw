@@ -38,6 +38,8 @@ class View extends Object {
 
 		if (file_exists($file))
 			include_once $file;
+		else
+			die("Missing view $file");
 
 		$out = ob_get_contents();
 		ob_get_clean();

@@ -20,7 +20,6 @@ class Controller extends Object {
  *
  * @var string
  * @access public
- * @link http://book.cakephp.org/view/52/name
  */
 	var $name = null;
 
@@ -385,7 +384,6 @@ class Controller extends Object {
  */
 	function doAction() {
 		$args = func_get_args();
-		unset($args[0]);
 		return call_user_func_array(array(&$this, $this->action), $args);
 	}
 
@@ -446,10 +444,9 @@ class Controller extends Object {
 			$uhelper = Inflector::underscore($helperClass);
 			View::addhelper($uhelper,$this->{$uhelper});
 		}
-		
+				
 		$out = View::render($this->viewPath.$action.".ctp",$this->viewVars);
 		$this->output = View::render(VIEWS.$layout.".ctp",array("content_for_layout" => $out,"title" => $this->pageTitle));
-		return $this->output;
 	}
 
 /**

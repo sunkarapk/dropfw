@@ -65,27 +65,27 @@ class Dispatcher extends Object {
 		else {
 			eval("\$controllerVar = new $classname();");
 
-			if (!isset($methods[strtolower($this->params['action'])])) {
-				print "Missing action $this->params[action]";
-			}
+			if (!in_array(strtolower($this->params['action']),$controllerVar->methods))
+				print "Missing action ".$this->params['action'];
 			else {
 				$controllerVar->action = $this->params['action'];
 				
 				$controllerVar->beforeFilter();
 
 				$actstr = "\$controllerVar->output = \$controllerVar->doAction(";
-				if(!empty($this->params[2])) {
-					$actstr .= "\$this->params[2]";
-					for($i=3; !empty($this->params[$i]); $i++) {
-						$actstr = ",\$this->params[$i]";
+				if(!empty($this->params['params'][0])) {
+					$actstr .= $this->params['params'][0];
+					for($i=1; !empty($this->params['params'][$i]); $i++) {
+						$actstr .= ",".$this->params['params'][$i];
 					}
 				}
+
 				eval($actstr.");");
 
 				$controllerVar->afterFilter();
-
-				if ($controller->autoRender)
-					$controllerVar->output = $controllerVar->render($this->params['action']);
+				
+				if ($controllerVar->autoRender)
+					$controllerVar->render($this->params['action']);
 				echo $controllerVar->output;
 			}
 		}

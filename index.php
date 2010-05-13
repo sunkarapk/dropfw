@@ -15,7 +15,7 @@
  */
 
 	define('DS', DIRECTORY_SEPARATOR);
-	define('HOST', 'http://'.$_SERVER['HTTP_HOST'].DS);
+	define('HOST', 'http://'.$_SERVER['HTTP_HOST']);
 	define('ROOT', dirname(__FILE__).DS);
 	define('CORE', ROOT.'sun'.DS);
 	define('APP', ROOT.'app'.DS);
@@ -32,12 +32,12 @@
 			$subdirUrl = explode("/",$_SERVER['SCRIPT_NAME']);
 			array_pop($subdirUrl);
 			$subdirUrl = implode("/",$subdirUrl);
-			define('BASE', HOST.$subdirUrl.DS);
+			define('BASE', HOST.$subdirUrl);
 			$redirection = true;
 		}
 	} else {
 		define('URL', $_SERVER['PATH_INFO']);
-		define('BASE', HOST.$_SERVER['SCRIPT_NAME'].DS);
+		define('BASE', HOST.$_SERVER['SCRIPT_NAME']);
 		$redirection = false;
 	}
 
