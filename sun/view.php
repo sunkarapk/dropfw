@@ -17,10 +17,39 @@
 class View extends Object {
 
 /**
+ * Helpers variables array
+ */
+	public static $help = array();
+
+/**
  * Constructor
  */
 	function __construct() {
 
+	}
+
+/**
+ * Main rendering function
+ */
+	function render($file,$data) {
+		extract($data, EXTR_SKIP);
+		extract($help, EXTR_SKIP);
+		ob_start();
+
+		if (file_exists($file))
+			include_once $file;
+
+		$out = ob_get_contents();
+		ob_get_clean();
+
+		return $out;
+	}
+
+/**
+ * Add helper
+ */
+	function addhelper($name,$var) {
+		self::$help = array_merge(self::$help,array($name => $var));
 	}
 
 }

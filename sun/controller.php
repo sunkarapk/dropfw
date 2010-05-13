@@ -97,14 +97,6 @@ class Controller extends Object {
 	var $pageTitle = false;
 
 /**
- * An array containing the class names of the models this controller uses.
- *
- * @var array Array of model objects.
- * @access public
- */
-	var $modelNames = array();
-
-/**
  * Set to true to automatically render the view
  * after action logic.
  *
@@ -182,7 +174,7 @@ class Controller extends Object {
 		}
 
 		if ($this->viewPath == null) {
-			$this->viewPath = Inflector::underscore($this->name);
+			$this->viewPath = VIEWS.Inflector::underscore($this->name).DS;
 		}
 		$this->modelClass = Inflector::classify($this->name);
 		$this->modelKey = Inflector::underscore($this->modelClass);
@@ -199,6 +191,13 @@ class Controller extends Object {
 		}
 
 		$this->methods = array_diff($childMethods, $parentMethods);
+
+		foreach ($uses as $model)
+			$this->loadModel($model);
+
+		foreach ($helpers as $helper)
+			$this->loadHelper($helper);
+		
 		parent::__construct();
 	}
 
@@ -372,35 +371,22 @@ class Controller extends Object {
 		}
 
 		foreach ($data as $name => $value) {
-			if ($name === 'title') {
-				$this->pageTitle = $value;
+			if ($two === null && is_array($one)) {
+				$this->viewVars[Inflector::variable($name)] = $value;
 			} else {
-				if ($two === null && is_array($one)) {
-					$this->viewVars[Inflector::variable($name)] = $value;
-				} else {
-					$this->viewVars[$name] = $value;
-				}
+				$this->viewVars[$name] = $value;
 			}
 		}
 	}
 
 /**
- * Internally redirects one action to another. Examples:
- *
- * setAction('another_action');
- * setAction('action_with_parameters', $parameter1);
- *
- * @param string $action The new action to be redirected to
- * @param mixed  Any other parameters passed to this method will be passed as
- *               parameters to the new action.
- * @return mixed Returns the return value of the called action
- * @access public
+ * Do the required action
+ * @param string $action The action to be done
  */
-	function setAction($action) {
-		$this->action = $action;
+	function doAction() {
 		$args = func_get_args();
 		unset($args[0]);
-		return call_user_func_array(array(&$this, $action), $args);
+		return call_user_func_array(array(&$this, $this->action), $args);
 	}
 
 /**
@@ -453,12 +439,16 @@ class Controller extends Object {
  * @return string Full output string of view contents
  * @access public
  */
-	function render($action = null, $layout = null, $file = null) {
+	function render($action = null, $layout = "default") {
 		$this->beforeRender();
 
-		$this->autoRender = false;
-		$this->output .= $View->render($action, $layout, $file);
-
+		foreach($helpers as $helper) {
+			$uhelper = Inflector::underscore($helperClass);
+			View::addhelper($uhelper,$this->{$uhelper});
+		}
+		
+		$out = View::render($this->viewPath.$action.".ctp",$this->viewVars);
+		$this->output = View::render(VIEWS.$layout.".ctp",array("content_for_layout" => $out,"title" => $this->pageTitle));
 		return $this->output;
 	}
 
@@ -491,7 +481,7 @@ class Controller extends Object {
 		$this->set('url', BASE.$url);
 		$this->set('message', $message);
 		$this->set('pause', $pause);
-		$this->set('page_title', $message);
+		$this->pageTitle = $message;
 		$this->render(false, 'flash');
 	}
 

@@ -42,7 +42,7 @@ class Dispatcher extends Object {
 			$this->base = HOST. Configure::read('App.base') .DS;
 		}
 		$this->params = $this->extract();
-		return $this->dispatch();
+		$this->dispatch();
 	}
 	
 /**
@@ -64,6 +64,30 @@ class Dispatcher extends Object {
 		}
 		else {
 			eval("\$controllerVar = new $classname();");
+
+			if (!isset($methods[strtolower($this->params['action'])])) {
+				print "Missing action $this->params[action]";
+			}
+			else {
+				$controllerVar->action = $this->params['action'];
+				
+				$controllerVar->beforeFilter();
+
+				$actstr = "\$controllerVar->output = \$controllerVar->doAction(";
+				if(!empty($this->params[2])) {
+					$actstr .= "\$this->params[2]";
+					for($i=3; !empty($this->params[$i]); $i++) {
+						$actstr = ",\$this->params[$i]";
+					}
+				}
+				eval($actstr.");");
+
+				$controllerVar->afterFilter();
+
+				if ($controller->autoRender)
+					$controllerVar->output = $controllerVar->render($this->params['action']);
+				echo $controllerVar->output;
+			}
 		}
 	}
 
