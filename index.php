@@ -42,13 +42,22 @@
 	}
 
 /**
- * Include boot.php which loads all the files
+ * No need to go to dispatch if it is css or js or img
  */
-	require_once CORE.'boot.php';
-
-/**
- * Include index.php which does the main dispatching and outputing
- */	
-	require_once WWW.'index.php';
+	$url = explode("/",URL);
+	array_shift($url);
+	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img")
+		require_once WWW.implode("/",$url);
+	else {
+		/**
+		 * Include boot.php which loads all the files
+		 */
+			require_once CORE.'boot.php';
+	
+		/**
+		 * Include index.php which does the main dispatching and outputing
+		 */	
+			require_once WWW.'index.php';
+	}
 
 ?>

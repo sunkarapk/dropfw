@@ -33,7 +33,7 @@ class View extends Object {
  */
 	function render($file,$data) {
 		extract($data, EXTR_SKIP);
-		extract($help, EXTR_SKIP);
+		extract(self::$help, EXTR_SKIP);
 		ob_start();
 
 		if (file_exists($file))

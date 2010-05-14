@@ -39,7 +39,7 @@
 	
 /**
  * Basic class for using cookie variables
- * Usage: "Cookie::"
+ * Usage: "$Cookie->"
  */
 	if(Configure::read('lib.cookie')) {
 		require_once CORE.'cookie.php';
@@ -79,7 +79,7 @@
 
 /**
  * Basic class for sending emails in PHP
- * Usage: "Email::"
+ * Usage: "$Email->"
  */
 	if(Configure::read('lib.email')) {
 		require_once CORE.'email.php';
@@ -92,6 +92,12 @@
 	if(Configure::read('lib.file')) {
 		require_once CORE.'file.php';
 	}
+
+/**
+ * Basic class for HTML helper
+ * Usage: "$HTML->"
+ */
+	require_once CORE.'html.php';
 
 /**
  * Basic class for maintaining naming conventions
@@ -109,7 +115,7 @@
 	
 /**
  * Basic class for Localisation of languages
- * Usage: "l10n::"
+ * Usage: "$l10n->"
  */
 	require_once CORE.'l10n.php';
 
@@ -131,7 +137,7 @@
 	
 /**
  * Basic class for using RSS feed
- * Usage: "RSS::"
+ * Usage: "$RSS->"
  */
 	if(Configure::read('lib.rss')) {
 		require_once CORE.'rss.php';
@@ -145,19 +151,19 @@
 
 /**
  * Basic class for sanitizing strings and conversion
- * Usage: "Sanitize::"
+ * Usage: "$Sanitize->"
  */	
 	require_once CORE.'sanitize.php';
 
 /**
  * Basic class for security hashing and others
- * Usage: "Security::"
+ * Usage: "$Security->"
  */	
 	require_once CORE.'security.php';
 	
 /**
  * Basic class for using session variables
- * Usage: "Session::"
+ * Usage: "$Session->"
  */
 	if(Configure::read('lib.session')) {
 		require_once CORE.'session.php';
@@ -183,7 +189,7 @@
 
 /**
  * Basic class for various validation techniques
- * Usage: "Validation::"
+ * Usage: "$Validation->"
  */
 	require_once CORE.'validation.php';
 
