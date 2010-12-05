@@ -6,12 +6,10 @@
  * Licensed under The GPLv3 License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright      Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
- * @version         1.0.0
- * @modifiedby    Pavan Kumar Sunkara
- * @lastmodified  Apr 10, 2010
- * @license         GPLv3
+ * @copyright	Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
+ * @version	1.0.0
+ * @author	Pavan Kumar Sunkara
+ * @license	GPLv3
  */
 
 class Controller extends Object {
@@ -191,10 +189,10 @@ class Controller extends Object {
 
 		$this->methods = array_diff($childMethods, $parentMethods);
 
-		foreach ($uses as $model)
+		foreach ($this->uses as $model)
 			$this->loadModel($model);
 
-		foreach ($helpers as $helper)
+		foreach ($this->helpers as $helper)
 			$this->loadHelper($helper);
 		
 		parent::__construct();
@@ -440,8 +438,8 @@ class Controller extends Object {
 	function render($action = null, $layout = "default") {
 		$this->beforeRender();
 
-		foreach($helpers as $helper) {
-			$uhelper = Inflector::underscore($helperClass);
+		foreach($this->helpers as $helper) {
+			$uhelper = Inflector::underscore($helper);
 			View::addhelper($uhelper,$this->{$uhelper});
 		}
 				

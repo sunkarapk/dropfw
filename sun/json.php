@@ -6,12 +6,10 @@
  * Licensed under The GPLv3 License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright      Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
- * @version         1.0.0
- * @modifiedby    Pavan Kumar Sunkara
- * @lastmodified  Apr 10, 2010
- * @license         GPLv3
+ * @copyright	Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
+ * @version	1.0.0
+ * @author	Pavan Kumar Sunkara
+ * @license	GPLv3
  */
 
 class JSON extends Object {

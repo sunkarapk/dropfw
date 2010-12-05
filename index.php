@@ -6,12 +6,10 @@
  * Licensed under The GPLv3 License
  * Redistributions of files must retain the above copyright notice.
  *
- * @filesource
- * @copyright      Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
- * @version         1.0.0
- * @modifiedby    Pavan Kumar Sunkara
- * @lastmodified  Apr 10, 2010
- * @license         GPLv3
+ * @copyright	Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
+ * @version	1.0.0
+ * @author	Pavan Kumar Sunkara
+ * @license	GPLv3
  */
 
 	define('DS', DIRECTORY_SEPARATOR);
@@ -31,15 +29,16 @@
 			define('URL', $_SERVER['REDIRECT_QUERY_STRING']);
 			$subdirUrl = explode("/",$_SERVER['SCRIPT_NAME']);
 			array_pop($subdirUrl);
-			$subdirUrl = implode("/",$subdirUrl);
-			define('BASE', HOST.$subdirUrl);
+			define('WEBROOT', implode("/",$subdirUrl));
 			$redirection = true;
 		}
 	} else {
 		define('URL', $_SERVER['PATH_INFO']);
-		define('BASE', HOST.$_SERVER['SCRIPT_NAME']);
+		define('WEBROOT',$_SERVER['SCRIPT_NAME']);
 		$redirection = false;
 	}
+
+	define('BASE', HOST.WEBROOT);
 
 /**
  * No need to go to dispatch if it is css or js or img
