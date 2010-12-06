@@ -12,6 +12,6 @@
  * @license	GPLv3
  */
 
-	echo "";
+	echo $json->encode($helpers);
 
 ?>

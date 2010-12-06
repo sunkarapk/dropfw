@@ -21,18 +21,16 @@
 	</title>
 	<?php
 		echo $html->meta('icon');
-
-		echo $html->css('cake.generic');
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $html->link(__('sunFW', true), 'http://suncoding.com'); ?></h1>
+			<h1><?php #echo $html->link('sunFW', 'http://suncoding.com'); ?></h1>
 		</div>
 		<div id="content">
 
-			<?php $session->flash(); ?>
+			<?php #$session->flash(); ?>
 
 			<?php echo $content_for_layout; ?>
 

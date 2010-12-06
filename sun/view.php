@@ -40,7 +40,7 @@ class View extends Object {
 			die("Missing view $file");
 
 		$out = ob_get_contents();
-		ob_get_clean();
+		ob_end_clean();
 
 		return $out;
 	}

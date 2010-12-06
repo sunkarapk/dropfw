@@ -12,7 +12,7 @@
  * @license	GPLv3
  */
 
-class XML extends Object {
+class Xml extends Object {
 
 /**
  * Constructor.
