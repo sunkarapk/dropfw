@@ -1,6 +1,6 @@
 <?php
 /**
- * sunFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
+ * dropFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
  * Copyright 2010, Sun Web Dev, Inc.
  *
  * Licensed under The GPLv3 License
@@ -15,7 +15,7 @@
 	define('DS', DIRECTORY_SEPARATOR);
 	define('HOST', 'http://'.$_SERVER['HTTP_HOST']);
 	define('ROOT', dirname(__FILE__).DS);
-	define('CORE', ROOT.'sun'.DS);
+	define('CORE', ROOT.'drop'.DS);
 	define('APP', ROOT.'app'.DS);
 	define('WWW', APP.'www'.DS);
 	
@@ -43,11 +43,24 @@
 /**
  * No need to go to dispatch if it is css or js or img
  */
+
 	$url = explode("/",URL);
 	array_shift($url);
-	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img")
-		require_once WWW.implode("/",$url);
-	else {
+
+	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img") {
+		if($url[0]=='css') {
+			header('Content-Type: text/css');
+			require_once WWW.implode("/",$url);
+		} else if($url[0]=='js') {
+			header('Content-Type: application/x-javascript');
+			require_once WWW.implode("/",$url);
+		} else if($url[0]=='img') {
+			$fmt = explode(".",$url[count($url)-1]);
+			$ext  = $fmt[count($fmt)-1];
+			header('Content-Type: image/'.$ext);
+			readfile(WWW.implode("/",$url));
+		}
+	} else {
 		/**
 		 * Include boot.php which loads all the files
 		 */

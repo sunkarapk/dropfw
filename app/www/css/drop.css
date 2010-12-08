@@ -1,0 +1,101 @@
+/**
+ * dropFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
+ * Copyright 2010, Sun Web Dev, Inc.
+ *
+ * Licensed under The GPLv3 License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright	Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
+ * @version	1.0.0
+ * @author	Pavan Kumar Sunkara
+ * @license	GPLv3
+ */
+
+/** General Style Info **/
+body {
+	color: #01b0f0;
+	font-family: Courier, monospace;
+	background-color: #333333;
+	width: 900px;
+	margin: 0px auto;
+	padding: 0px;
+}
+a {
+	color: #aeee00;
+	text-decoration: none;
+}
+a:hover {
+	font-style: italic;
+}
+a img {
+	border:none;
+}
+h1 {
+	margin: 0.4em 0px;
+}
+div {
+	font-family: cursive;
+}
+/** Header and Others **/
+#header {
+	background-color: #ff358b;
+	font-family: Courier, monospace;
+	color: #000000;
+	height: 80px;
+	text-align: center;
+	padding: 10px;
+}
+#footer {
+	background-color: #ff358b;
+	font-family: Courier, monospace;
+	color: #000000;
+	height: 25px;
+	font-style: italic;
+	font-size: small;
+	padding: 10px;
+}
+
+/** Notices and Errors **/
+p.error {
+	background-color: #ff3322;
+	color: #000;
+	font-family: Courier, monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+.notice {
+	background: #ffcc00;
+	color: #000;
+	display: block;
+	font-family: Courier, monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;
+}
+.success {
+	background: #22ff33;
+	color: #000;
+	display: block;
+	font-family: Courier, monospace;
+	font-size: 120%;
+	line-height: 140%;
+	padding: 0.8em;
+	margin: 1em 0;}
+
+/** Debugging **/
+pre {
+	color: #000;
+	background: #f0f0f0;
+	padding: 1em;
+}
+pre.drop-debug {
+	background: #ffcc00;
+	font-size: 120%;
+	line-height: 140%;
+	margin-top: 1em;
+	overflow: auto;
+	position: relative;
+}

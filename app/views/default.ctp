@@ -1,6 +1,6 @@
 <?php
 /**
- * sunFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
+ * dropFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
  * Copyright 2010, Sun Web Dev, Inc.
  *
  * Licensed under The GPLv3 License
@@ -21,12 +21,21 @@
 	</title>
 	<?php
 		echo $html->meta('icon');
+		echo $html->css('drop');
+		echo $html->script('jquery');
+		#echo $html->scriptBlock('$(document).ready(function(){alert("Welcome")});');
 	?>
 </head>
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php #echo $html->link('sunFW', 'http://suncoding.com'); ?></h1>
+			<table><tr>
+				<td width=100px><?php echo $html->image('drop.png',array('width'=>'75px','height'=>'75px')); ?></td>
+				<td width=800px>
+					<h1><?php echo $html->link('dropFW', 'http://suncoding.com'); ?></h1>
+					<span>PHP Web Development Framework v1.0.0</span>
+				</td>
+			</tr></table>
 		</div>
 		<div id="content">
 
@@ -36,6 +45,10 @@
 
 		</div>
 		<div id="footer">
+			<table><tr>
+				<td style='text-align:left;width:450px;'>www.suncoding.com</td>
+				<td style='text-align:right;width:450px;'>Copyright&#64;2010 Sun Web Dev, Inc.</td>
+			</tr></table>
 		</div>
 	</div>
 </body>

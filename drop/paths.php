@@ -12,14 +12,24 @@
  * @license	GPLv3
  */
 
-	define('DB_HOST', 'localhost');
+	define('CONFIGS', APP.'configs'.DS);
 	
-	define('DB_USER', 'user');
+	define('CONTROLLERS', APP.'controllers'.DS);
 	
-	define('DB_PASS', 'password');
+	define('MODELS', APP.'models'.DS);
 	
-	define('DB_NAME', 'database_name');
+	define('VIEWS', APP.'views'.DS);
 	
-	define('DB_PREFIX', 'prefix_');
+	define('CSS', WWW.'css'.DS);
+	
+	define('WEBCSS', WEBROOT.DS.'css'.DS);
+	
+	define('IMG', WWW.'img'.DS);
+	
+	define('WEBIMG', WEBROOT.DS.'img'.DS);
+	
+	define('JS', WWW.'js'.DS);
+	
+	define('WEBJS', WEBROOT.DS.'js'.DS);
 
 ?>

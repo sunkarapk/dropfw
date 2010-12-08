@@ -12,14 +12,15 @@
  * @license	GPLv3
  */
 
-	define('DB_HOST', 'localhost');
+class Validation extends Object {
+
+/**
+ * Constructor.
+ */
+	function __construct() {
 	
-	define('DB_USER', 'user');
-	
-	define('DB_PASS', 'password');
-	
-	define('DB_NAME', 'database_name');
-	
-	define('DB_PREFIX', 'prefix_');
+	}
+
+}
 
 ?>

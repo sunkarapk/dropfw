@@ -1,6 +1,6 @@
 <?php
 /**
- * sunFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
+ * dropFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
  * Copyright 2010, Sun Web Dev, Inc.
  *
  * Licensed under The GPLv3 License

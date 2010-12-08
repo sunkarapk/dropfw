@@ -12,14 +12,23 @@
  * @license	GPLv3
  */
 
-	define('DB_HOST', 'localhost');
+	define('SECOND', 1);
+	define('MINUTE', 60 * SECOND);
+	define('HOUR', 60 * MINUTE);
+	define('DAY', 24 * HOUR);
+	define('WEEK', 7 * DAY);
+	define('MONTH', 30 * DAY);
+	define('YEAR', 365 * DAY);
 	
-	define('DB_USER', 'user');
+class Timer extends Object {
+
+/**
+ * Constructor.
+ */
+	function __construct() {
 	
-	define('DB_PASS', 'password');
-	
-	define('DB_NAME', 'database_name');
-	
-	define('DB_PREFIX', 'prefix_');
+	}
+
+}
 
 ?>
