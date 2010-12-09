@@ -36,9 +36,11 @@ class View extends Object {
 
 		if (file_exists($file))
 			include_once $file;
-		else
-			die("Missing view $file");
-
+		else {
+			$code = "<div>\n\t<!-- $file -->\n</div>";
+			Error::render("<b>Missing View</b>: $file","Create view in <b>$file</b>",$code);
+		}
+		
 		$out = ob_get_contents();
 		ob_end_clean();
 

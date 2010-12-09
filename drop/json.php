@@ -13,39 +13,39 @@
  */
 
 /**
- * Marker constant for JSON::decode(), used to flag stack state
+ * Marker constant for Json::decode(), used to flag stack state
  */
 define('JSON_SLICE',   1);
 
 /**
- * Marker constant for JSON::decode(), used to flag stack state
+ * Marker constant for Json::decode(), used to flag stack state
  */
 define('JSON_IN_STR',  2);
 
 /**
- * Marker constant for JSON::decode(), used to flag stack state
+ * Marker constant for Json::decode(), used to flag stack state
  */
 define('JSON_IN_ARR',  3);
 
 /**
- * Marker constant for JSON::decode(), used to flag stack state
+ * Marker constant for Json::decode(), used to flag stack state
  */
 define('JSON_IN_OBJ',  4);
 
 /**
- * Marker constant for JSON::decode(), used to flag stack state
+ * Marker constant for Json::decode(), used to flag stack state
  */
 define('JSON_IN_CMT', 5);
 
 /**
- * Behavior switch for JSON::decode()
+ * Behavior switch for Json::decode()
  */
 define('JSON_LOOSE_TYPE', 16);
 
 /**
- * Behavior switch for JSON::decode()
+ * Behavior switch for Json::decode()
  */
-define('JSON_SUPPRESS_ERRORS', 32);
+define('JSON_SUPPRESS_ERRORS', 0);
 
 /**
  * Converts to and from JSON format.
@@ -332,7 +332,7 @@ class Json extends Object {
 											array_values($var));
 
 					foreach($properties as $property) {
-						if(JSON::isError($property)) {
+						if(Json::isError($property)) {
 							return $property;
 						}
 					}
@@ -344,7 +344,7 @@ class Json extends Object {
 				$elements = array_map(array($this, 'encode'), $var);
 
 				foreach($elements as $element) {
-					if(JSON::isError($element)) {
+					if(Json::isError($element)) {
 						return $element;
 					}
 				}
@@ -358,18 +358,13 @@ class Json extends Object {
 										array_keys($vars),
 										array_values($vars));
 
-				foreach($properties as $property) {
-					if(JSON::isError($property)) {
-						return $property;
-					}
-				}
-
 				return '{' . join(',', $properties) . '}';
 
 			default:
-				return ($this->use & JSON_SUPPRESS_ERRORS)
-					? 'null'
-					: new JSON_Error(gettype($var)." can not be encoded as JSON string");
+				if($this->use & JSON_SUPPRESS_ERRORS)
+					return 'null';
+				else
+					$this->error($var);
 		}
 	}
 
@@ -384,10 +379,6 @@ class Json extends Object {
  */
 	function name_value($name, $value) {
 		$encoded_value = $this->encode($value);
-
-		if(JSON::isError($encoded_value)) {
-			return $encoded_value;
-		}
 
 		return $this->encode(strval($name)) . ':' . $encoded_value;
 	}
@@ -708,18 +699,9 @@ class Json extends Object {
 		}
 	}
 
-/**
- * @todo Ultimately, this should just call PEAR::isError()
- */
-	function isError($data, $code = null) {
-		if (class_exists('pear')) {
-			return PEAR::isError($data, $code);
-		} elseif (is_object($data) && (get_class($data) == 'JSON_error' ||
-								 is_subclass_of($data, 'JSON_error'))) {
-			return true;
-		}
-
-		return false;
+	function error($data) {
+		$code = print_r($data,true);
+		Error::render("<b>JSON error</b>: ".gettype($data),"<b>".gettype($data)."</b> cannot be encoded to JSON string",$code);	
 	}
 }
 

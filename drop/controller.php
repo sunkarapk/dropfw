@@ -215,7 +215,8 @@ class Controller extends Object {
 			require_once MODELS.$umodel.'.php';
 
 		if (!class_exists($modelClass)) {
-			print "Missing $modelClass";
+			$code = "<?php\nclass $modelClass extends Model {\n\n\tvar \$uses = array();\n}\n?>";
+			Error::render("<b>Missing Model</b>: $modelClass","Create the class <b>$modelClass</b> in <b>".MODELS.$umodel.".php</b>",$code);
 		}
 		else
 			eval("\$this->$modelClass = new $modelClass(); ");
@@ -234,7 +235,8 @@ class Controller extends Object {
 			require_once CORE.$uhelper.'.php';
 
 		if (!class_exists($helperClass)) {
-			print "Missing $helperClass";
+			$code = "<?php\nclass $helperClass extends Object {\n\n\tfunction __construct() {\n\t}\n}\n?>";
+			Error::render("<b>Missing Library</b>: $helperClass","Create the class <b>$helperClass</b> in <b>".CORE.$uhelper.".php</b>",$code);
 		}
 		else
 			eval("\$this->$uhelper = new $helperClass(); ");

@@ -13,12 +13,20 @@
  */
 
 class Error extends Object {
-
 /**
  * Constructor.
  */
-	function __construct() {
-	
+	function __construct() {}
+
+/**
+ * Render error page
+ */
+	function render($msg,$sug,$code) {
+		if($code===null)
+			echo View::render(VIEW.'error.ctp',array('msg'=>$msg,'sug'=>$sug,'code'=>null));
+		else
+			echo View::render(VIEWS.'error.ctp',array('msg'=>$msg,'sug'=>$sug,'code'=>Sanitize::hsc($code)));
+		die();
 	}
 
 }

@@ -18,9 +18,7 @@ class PagesController extends Controller
 	var $helpers = array('Html','Json');
 
 	function home() {
-		#print '<pre>'.print_r($this,true).'</pre>';
-		$this->set('helpers',$this->helpers);
-		$this->pageTitle = "Testing sunFW";
+		$this->pageTitle = "dropFW";
 	}
 
 }

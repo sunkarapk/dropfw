@@ -47,6 +47,12 @@
 	$url = explode("/",URL);
 	array_shift($url);
 
+/**
+ * Setting Cache to improve page speed
+ * Setting cache expiraiton to 1 year to improve hitrate
+ */
+	header('Cache-Control: max-age=31104000, public');
+
 	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img") {
 		if($url[0]=='css') {
 			header('Content-Type: text/css');
