@@ -381,7 +381,6 @@ class Inflector extends Object {
  * @return string Camelized word. LikeThis.
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function camelize($lowerCaseAndUnderscoredWord) {
 		return str_replace(" ", "", ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord)));
@@ -394,7 +393,6 @@ class Inflector extends Object {
  * @return string Underscore-syntaxed version of the $camelCasedWord
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function underscore($camelCasedWord) {
 		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $camelCasedWord));
@@ -408,7 +406,6 @@ class Inflector extends Object {
  * @return string Human-readable string
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function humanize($lowerCaseAndUnderscoredWord) {
 		return ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord));
@@ -421,7 +418,6 @@ class Inflector extends Object {
  * @return string Name of the database table for given class
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function tableize($className) {
 		return self::pluralize(self::underscore($className));
@@ -434,7 +430,6 @@ class Inflector extends Object {
  * @return string Class name
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function classify($tableName) {
 		return self::camelize(self::singularize($tableName));
@@ -447,7 +442,6 @@ class Inflector extends Object {
  * @return string in public staticiable form
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function variable($string) {
 		$string = self::camelize(self::underscore($string));
@@ -464,12 +458,8 @@ class Inflector extends Object {
  * @return string
  * @access public
  * @static
- * @link http://book.cakephp.org/view/572/Class-methods
  */
 	function slug($string, $replacement = '_') {
-		if (!class_exists('String')) {
-			require LIBS . 'string.php';
-		}
 		$map = array(
 			'/à|á|å|â/' => 'a',
 			'/è|é|ê|ẽ|ë/' => 'e',

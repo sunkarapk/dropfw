@@ -106,6 +106,16 @@ class Error extends Object {
 		self::render();
 	}
 
+/**
+ * Empty cipher key
+ */
+	function emptyCipherKey() {
+			$this->code = "<?php\n\tSecurity::cipher(\$text,'9nHPrYcxmvTliA');\n?>";
+			$this->msg = "<b>Encyption error</b>: Empty key";
+			$this->sug = "You cannot use an empty key for <b>Security::cipher()</b>";
+			self::render();
+	}
+
 }
 
 ?>

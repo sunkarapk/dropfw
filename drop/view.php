@@ -22,9 +22,7 @@ class View extends Object {
 /**
  * Constructor
  */
-	function __construct() {
-
-	}
+	function __construct() {}
 
 /**
  * Main rendering function

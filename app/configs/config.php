@@ -56,6 +56,8 @@
 
 	Configure::write('lib.json', true);
 
+	Configure::write('lib.html', true);
+
 	Configure::write('lib.logger', true);
 
 	Configure::write('lib.pay', true);
@@ -65,5 +67,15 @@
 	Configure::write('lib.session', true);
 
 	Configure::write('lib.xml', true);
+
+/**
+ * A random string used in security hashing methods.
+ */
+	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUuiR2G0FgaC9mi');
+
+/**
+ * A random numeric string (digits only) used to encrypt/decrypt strings.
+ */
+	Configure::write('Security.cipherSeed', '7685930965745382496749683645');
 
 ?>

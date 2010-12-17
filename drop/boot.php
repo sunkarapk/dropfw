@@ -71,7 +71,7 @@
 
 /**
  * Basic class for error handling
- * Usage: "$Error->"
+ * Usage: "Error::"
  */	
 	require_once CORE.'error.php';
 
@@ -95,7 +95,9 @@
  * Basic class for HTML helper
  * Usage: "$HTML->"
  */
-	require_once CORE.'html.php';
+	if(Configure::read('lib.html')) {
+		require_once CORE.'html.php';
+	}
 
 /**
  * Basic class for maintaining naming conventions
@@ -113,7 +115,7 @@
 	
 /**
  * Basic class for Localisation of languages
- * Usage: "$l10n->"
+ * Usage: "l10n::"
  */
 	require_once CORE.'l10n.php';
 
@@ -149,14 +151,14 @@
 
 /**
  * Basic class for sanitizing strings and conversion
- * Usage: "$Sanitize->"
+ * Usage: "Sanitize::"
  */	
 	require_once CORE.'sanitize.php';
 
 /**
  * Basic class for security hashing and others
- * Usage: "$Security->"
- */	
+ * Usage: "Security::"
+ */
 	require_once CORE.'security.php';
 	
 /**
@@ -181,7 +183,7 @@
 	
 /**
  * Basic class for using timers
- * Usage: "$Timer->"
+ * Usage: "Timer::"
  */
 	require_once CORE.'timer.php';
 
