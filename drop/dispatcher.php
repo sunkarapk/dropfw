@@ -58,16 +58,13 @@ class Dispatcher extends Object {
 			require_once CONTROLLERS.$filename;
 
 		if(!class_exists($classname)) {
-			$code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n}\n?>";
-			Error::render("<b>Missing Controller</b>: $classname","Create the class <b>$classname</b> in <b>".CONTROLLERS.$filename."</b>",$code);
+			Error::missingController($this->params['controller']);
 		}
 		else {
 			eval("\$controllerVar = new $classname();");
 
 			if (!in_array(strtolower($this->params['action']),$controllerVar->methods)) {
-				$aTmp = $this->params['action'];
-				$code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n\n\tfunction $aTmp() {\n\t}\n}\n?>";
-				Error::render("<b>Missing Action</b>: $aTmp","Create <b>$classname::$aTmp()</b> in <b>".CONTROLLERS.$filename."</b>",$code);
+				Error::missingAction($this->params['action'],$this->params['controller']);
 			} else {
 				$controllerVar->action = $this->params['action'];
 				

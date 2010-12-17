@@ -331,23 +331,11 @@ class Json extends Object {
 											array_keys($var),
 											array_values($var));
 
-					foreach($properties as $property) {
-						if(Json::isError($property)) {
-							return $property;
-						}
-					}
-
 					return '{' . join(',', $properties) . '}';
 				}
 
 				// treat it like a regular array
 				$elements = array_map(array($this, 'encode'), $var);
-
-				foreach($elements as $element) {
-					if(Json::isError($element)) {
-						return $element;
-					}
-				}
 
 				return '[' . join(',', $elements) . ']';
 
@@ -700,8 +688,7 @@ class Json extends Object {
 	}
 
 	function error($data) {
-		$code = print_r($data,true);
-		Error::render("<b>JSON error</b>: ".gettype($data),"<b>".gettype($data)."</b> cannot be encoded to JSON string",$code);	
+		Error::json($data);
 	}
 }
 
