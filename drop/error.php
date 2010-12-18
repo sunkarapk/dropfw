@@ -116,6 +116,46 @@ class Error extends Object {
 			self::render();
 	}
 
+/**
+ * Validation Comparison: No operator
+ */
+	function validationComparison($opertor) {
+		$this->code = "<?php\n\tValidation::comparison(\$value1, 'lessorequal', \$value2);\n?>";
+		$this->msg = "<b>Validation error</b>: Unknow <b>$operator</b> in comparison()";
+		$this->sug = "You must define the operator parameter for <b>Validation::comparison()</b>";
+		self::render();
+	}
+
+/**
+ * Validation Custom: No regex expression
+ */
+	function validationCustom($regex) {
+		$this->code = "<?php\n\tValidation::custom(\$value, '/^[a-zA-Z0-9_]*(1|2|3)$/i');\n?>";
+		$this->msg = "<b>Validation error</b>: Unknow <b>$regex</b> in custom()";
+		$this->sug = "You must define a regular expression for <b>Validation::custom()<b>";
+		self::render();
+	}
+
+/**
+ * No Unhandled Validation class
+ */
+	function validationClass($className) {
+		$this->code = "<?php\nclass $className {\n\n\tfunction __construct(){\n\t}\n}\n?>";
+		$this->msg = "<b>Missing validation class</b>: $className";
+		$this->sug = "Create the class <b>$className</b> in <b>".CORE."validation.php</b>";
+		self::render();
+	}
+
+/**
+ * No Unhandled Validation method
+ */
+	function validationClass($method,$classname) {
+		$this->code = "<?php\nclass $classname {\n\n\tfunction $method() {\n\t}\n}\n?>";
+		$this->msg = "<b>Missing validation method</b>: $method";
+		$this->sug = "Create <b>$classname::$method()</b> in <b>".CORE."validation.php</b>";
+		self::render();
+	}
+
 }
 
 ?>
