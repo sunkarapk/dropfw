@@ -114,10 +114,16 @@
 	}
 	
 /**
- * Basic class for Localisation of languages
- * Usage: "l10n::"
+ * Basic class for Localization of languages
+ * Usage: "L10n::"
  */
 	require_once CORE.'l10n.php';
+
+/**
+ * Basic class for Internationalization of languages
+ * Usage: "I18n::"
+ */
+	require_once CORE.'i18n.php';
 
 /**
  * Basic class for logging objects

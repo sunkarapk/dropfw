@@ -12,7 +12,7 @@
  * @license	GPLv3
  */
 
-class L10n extends Object {
+class I18n extends Object {
 
 /**
  * Constructor.
