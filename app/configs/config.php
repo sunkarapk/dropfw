@@ -12,7 +12,7 @@
  * @license	GPLv3
  */
 
-	Configure::write('App.Name', 'My dropFW App');
+	Configure::write('App.Name', 'dropFW Docs');
 
 /**
  * Configuration about debugging

@@ -12,13 +12,16 @@
  * @license	GPLv3
  */
 
-class PagesController extends Controller 
+class DocsController extends Controller 
 {
 
-	var $helpers = array('Html','Json');
+	var $helpers = array('Html');
+
+	function beforeFilter() {
+		$this->pageTitle = Configure::read('App.Name');
+	}
 
 	function home() {
-		$this->pageTitle = "dropFW";
 	}
 
 }
