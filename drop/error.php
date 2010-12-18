@@ -149,7 +149,7 @@ class Error extends Object {
 /**
  * No Unhandled Validation method
  */
-	function validationClass($method,$classname) {
+	function validationMethod($method,$classname) {
 		$this->code = "<?php\nclass $classname {\n\n\tfunction $method() {\n\t}\n}\n?>";
 		$this->msg = "<b>Missing validation method</b>: $method";
 		$this->sug = "Create <b>$classname::$method()</b> in <b>".CORE."validation.php</b>";

@@ -195,7 +195,7 @@
 
 /**
  * Basic class for various validation techniques
- * Usage: "$Validation->"
+ * Usage: "Validation::"
  */
 	require_once CORE.'validation.php';
 
