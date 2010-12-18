@@ -20,6 +20,8 @@
 	
 	define('VIEWS', APP.'views'.DS);
 	
+	define('LOCALE', APP.'locale'.DS);
+	
 	define('CSS', WWW.'css'.DS);
 	
 	define('WEBCSS', WEBROOT.DS.'css'.DS);

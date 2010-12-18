@@ -78,4 +78,9 @@
  */
 	Configure::write('Security.cipherSeed', '7685930965745382496749683645');
 
+/**
+ * Configuration for internationalizationa and localization
+ */
+	Configure::write('Config.language','eng');
+
 ?>

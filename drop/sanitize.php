@@ -358,6 +358,32 @@ class Sanitize extends Object {
 		}
 	}
 
+/**
+ * Converts the decimal value of a multibyte character string
+ * to a string
+ *
+ * @param array $array
+ * @return string
+ * @access public
+ * @static
+ */
+	function ascii($array) {
+		$ascii = '';
+
+		foreach ($array as $utf8) {
+			if ($utf8 < 128) {
+				$ascii .= chr($utf8);
+			} elseif ($utf8 < 2048) {
+				$ascii .= chr(192 + (($utf8 - ($utf8 % 64)) / 64));
+				$ascii .= chr(128 + ($utf8 % 64));
+			} else {
+				$ascii .= chr(224 + (($utf8 - ($utf8 % 4096)) / 4096));
+				$ascii .= chr(128 + ((($utf8 % 4096) - ($utf8 % 64)) / 64));
+				$ascii .= chr(128 + ($utf8 % 64));
+			}
+		}
+		return $ascii;
+	}
 }
 
 ?>

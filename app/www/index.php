@@ -12,6 +12,8 @@
  * @license	GPLv3
  */
 
-    $dispatch = new Dispatcher(URL);
+	$i18n = new I18n();
+
+	$dispatch = new Dispatcher(URL);
 
 ?>

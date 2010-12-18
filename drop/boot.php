@@ -115,7 +115,7 @@
 	
 /**
  * Basic class for Localization of languages
- * Usage: "L10n::"
+ * It is used in I18n, so no need to initialise here.
  */
 	require_once CORE.'l10n.php';
 
@@ -212,6 +212,10 @@
 	if(Configure::read('lib.xml')) {
 		require_once CORE.'xml.php';
 	}
+
+/**
+ * Configuration files
+ */
 
 	//File for inflections in webAPP
 	require_once CONFIGS.'inflections.php';
