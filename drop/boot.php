@@ -27,6 +27,9 @@
 	// File for configuration in webAPP
 	require_once CONFIGS.'config.php';
 
+	// File for database configuration in webAPP
+	require_once CONFIGS.'database.php';
+
 /**
  * Basic class for Access control lists
  * Usage: "$ACL->"
@@ -121,7 +124,7 @@
 
 /**
  * Basic class for Internationalization of languages
- * Usage: "I18n::"
+ * Usage: "$I18n->"
  */
 	require_once CORE.'i18n.php';
 

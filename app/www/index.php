@@ -12,8 +12,8 @@
  * @license	GPLv3
  */
 
+	Database::connect();
 	$i18n = new I18n();
-
 	$dispatch = new Dispatcher(URL);
 
 ?>

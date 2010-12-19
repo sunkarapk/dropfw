@@ -17,15 +17,15 @@ class Error extends Object {
 /**
  * Variable for code to be written in Error <pre> tag.
  */
-	var $code = null;
+	public static $code = null;
 /**
  * Variable for message
  */
-	var $msg = null;
+	public static $msg = null;
 /**
  * Variable for suggestion
  */
-	var $sug = null;
+	public static $sug = null;
 /**
  * Constructor.
  */
@@ -35,10 +35,10 @@ class Error extends Object {
  * Render error page
  */
 	function render() {
-		if($this->code===null)
-			echo View::render(VIEW.'error.ctp',array('msg'=>$this->msg,'sug'=>$this->sug,'code'=>null));
+		if(self::$code===null)
+			echo View::render(VIEW.'error.ctp',array('msg'=>self::$msg,'sug'=>self::$sug,'code'=>null));
 		else
-			echo View::render(VIEWS.'error.ctp',array('msg'=>$this->msg,'sug'=>$this->sug,'code'=>Sanitize::hsc($this->code)));
+			echo View::render(VIEWS.'error.ctp',array('msg'=>self::$msg,'sug'=>self::$sug,'code'=>Sanitize::hsc(self::$code)));
 		die();
 	}
 
@@ -47,9 +47,9 @@ class Error extends Object {
  */
 	function missingModel($modelClass) {
 		$model = Inflector::underscore($modelClass);
-		$this->msg = "<b>Missing Model</b>: $modelClass";
-		$this->sug = "Create the class <b>$modelClass</b> in <b>".MODELS.$model.".php</b>";
-		$this->code = "<?php\nclass $modelClass extends Model {\n\n\tvar \$uses = array();\n}\n?>";
+		self::$msg = "<b>Missing Model</b>: $modelClass";
+		self::$sug = "Create the class <b>$modelClass</b> in <b>".MODELS.$model.".php</b>";
+		self::$code = "<?php\nclass $modelClass extends Model {\n\n\tvar \$uses = array();\n}\n?>";
 		self::render();
 	}
 
@@ -58,9 +58,9 @@ class Error extends Object {
  */
 	function missingHelper($helperClass) {
 		$helper = Inflector::underscore($helperClass);
-		$this->msg = "<b>Missing Library</b>: $helperClass";
-		$this->code = "<?php\nclass $helperClass extends Object {\n\n\tfunction __construct() {\n\t}\n}\n?>";
-		$this->sug = "Create the class <b>$helperClass</b> in <b>".CORE.$helper.".php</b>";
+		self::$msg = "<b>Missing Library</b>: $helperClass";
+		self::$code = "<?php\nclass $helperClass extends Object {\n\n\tfunction __construct() {\n\t}\n}\n?>";
+		self::$sug = "Create the class <b>$helperClass</b> in <b>".CORE.$helper.".php</b>";
 		self::render();
 	}
 
@@ -69,9 +69,9 @@ class Error extends Object {
  */
 	function missingController($controller) {
 		$classname = Inflector::camelize($controller.'_controller');
-		$this->code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n}\n?>";
-		$this->msg = "<b>Missing Controller</b>: $classname";
-		$this->sug = "Create the class <b>$classname</b> in <b>".CONTROLLERS.$controller.".php</b>";
+		self::$code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n}\n?>";
+		self::$msg = "<b>Missing Controller</b>: $classname";
+		self::$sug = "Create the class <b>$classname</b> in <b>".CONTROLLERS.$controller.".php</b>";
 		self::render();
 	}
 
@@ -80,9 +80,9 @@ class Error extends Object {
  */
 	function missingAction($action,$controller) {
 		$classname = Inflector::camelize($controller.'_controller');
-		$this->code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n\n\tfunction $action() {\n\t}\n}\n?>";
-		$this->msg = "<b>Missing Action</b>: $action";
-		$this->sug = "Create <b>$classname::$action()</b> in <b>".CONTROLLERS.$controller.".php</b>";
+		self::$code = "<?php\nclass $classname extends Controller {\n\n\tvar \$helpers = array('Html');\n\n\tfunction $action() {\n\t}\n}\n?>";
+		self::$msg = "<b>Missing Action</b>: $action";
+		self::$sug = "Create <b>$classname::$action()</b> in <b>".CONTROLLERS.$controller.".php</b>";
 		self::render();
 	}
 
@@ -90,9 +90,9 @@ class Error extends Object {
  * Missing view
  */
 	function missingView($file) {
-		$this->code = "<div>\n\t<!-- $file -->\n</div>";
-		$this->msg = "<b>Missing View</b>: $file";
-		$this->sug = "Create view in <b>$file</b>";
+		self::$code = "<div>\n\t<!-- $file -->\n</div>";
+		self::$msg = "<b>Missing View</b>: $file";
+		self::$sug = "Create view in <b>$file</b>";
 		self::render();
 	}
 
@@ -100,9 +100,9 @@ class Error extends Object {
  * JSON error
  */
 	function json($data) {
-		$this->code = print_r($data,true);
-		$this->msg = "<b>JSON error</b>: ".gettype($data);
-		$this->sug = "<b>".gettype($data)."</b> cannot be encoded to JSON string";
+		self::$code = print_r($data,true);
+		self::$msg = "<b>JSON error</b>: ".gettype($data);
+		self::$sug = "<b>".gettype($data)."</b> cannot be encoded to JSON string";
 		self::render();
 	}
 
@@ -110,9 +110,9 @@ class Error extends Object {
  * Empty cipher key
  */
 	function emptyCipherKey() {
-			$this->code = "<?php\n\tSecurity::cipher(\$text,'9nHPrYcxmvTliA');\n?>";
-			$this->msg = "<b>Encyption error</b>: Empty key";
-			$this->sug = "You cannot use an empty key for <b>Security::cipher()</b>";
+			self::$code = "<?php\n\tSecurity::cipher(\$text,'9nHPrYcxmvTliA');\n?>";
+			self::$msg = "<b>Encyption error</b>: Empty key";
+			self::$sug = "You cannot use an empty key for <b>Security::cipher()</b>";
 			self::render();
 	}
 
@@ -120,9 +120,9 @@ class Error extends Object {
  * Validation Comparison: No operator
  */
 	function validationComparison($opertor) {
-		$this->code = "<?php\n\tValidation::comparison(\$value1, 'lessorequal', \$value2);\n?>";
-		$this->msg = "<b>Validation error</b>: Unknow <b>$operator</b> in comparison()";
-		$this->sug = "You must define the operator parameter for <b>Validation::comparison()</b>";
+		self::$code = "<?php\n\tValidation::comparison(\$value1, 'lessorequal', \$value2);\n?>";
+		self::$msg = "<b>Validation error</b>: Unknow <b>$operator</b> in comparison()";
+		self::$sug = "You must define the operator parameter for <b>Validation::comparison()</b>";
 		self::render();
 	}
 
@@ -130,9 +130,9 @@ class Error extends Object {
  * Validation Custom: No regex expression
  */
 	function validationCustom($regex) {
-		$this->code = "<?php\n\tValidation::custom(\$value, '/^[a-zA-Z0-9_]*(1|2|3)$/i');\n?>";
-		$this->msg = "<b>Validation error</b>: Unknow <b>$regex</b> in custom()";
-		$this->sug = "You must define a regular expression for <b>Validation::custom()<b>";
+		self::$code = "<?php\n\tValidation::custom(\$value, '/^[a-zA-Z0-9_]*(1|2|3)$/i');\n?>";
+		self::$msg = "<b>Validation error</b>: Unknow <b>$regex</b> in custom()";
+		self::$sug = "You must define a regular expression for <b>Validation::custom()<b>";
 		self::render();
 	}
 
@@ -140,9 +140,9 @@ class Error extends Object {
  * No Unhandled Validation class
  */
 	function validationClass($className) {
-		$this->code = "<?php\nclass $className {\n\n\tfunction __construct(){\n\t}\n}\n?>";
-		$this->msg = "<b>Missing validation class</b>: $className";
-		$this->sug = "Create the class <b>$className</b> in <b>".CORE."validation.php</b>";
+		self::$code = "<?php\nclass $className {\n\n\tfunction __construct(){\n\t}\n}\n?>";
+		self::$msg = "<b>Missing validation class</b>: $className";
+		self::$sug = "Create the class <b>$className</b> in <b>".CORE."validation.php</b>";
 		self::render();
 	}
 
@@ -150,9 +150,49 @@ class Error extends Object {
  * No Unhandled Validation method
  */
 	function validationMethod($method,$classname) {
-		$this->code = "<?php\nclass $classname {\n\n\tfunction $method() {\n\t}\n}\n?>";
-		$this->msg = "<b>Missing validation method</b>: $method";
-		$this->sug = "Create <b>$classname::$method()</b> in <b>".CORE."validation.php</b>";
+		self::$code = "<?php\nclass $classname {\n\n\tfunction $method() {\n\t}\n}\n?>";
+		self::$msg = "<b>Missing validation method</b>: $method";
+		self::$sug = "Create <b>$classname::$method()</b> in <b>".CORE."validation.php</b>";
+		self::render();
+	}
+
+/**
+ * No DB connection
+ */
+	function databaseConnection($server,$user,$pass) {
+		self::$code = "<?php\n\tdefine('DB_HOST', \$server)\n\tdefine('DB_USER', \$user)\n\tdefine('DB_PASS', \$pass)\n?>";
+		self::$msg = "<b>No MySQL connection</b>: $user@$server -p $pass";
+		self::$sug = "Configure database variables in <b>".CONFIGS."database.php</b>";
+		self::render();
+	}
+
+/**
+ * No database with $name
+ */
+	function databaseDb($name) {
+		self::$code = "<?php\n\tdefine('DB_NAME', \$dbName)\n?>";
+		self::$msg = "<b>No database</b>: $name";
+		self::$sug = "Configure database name in <b>".CONFIGS."database.php</b>";
+		self::render();
+	}
+
+/**
+ * Count mismatch of params for query
+ */
+	function databaseAPI($query,$count) {
+		self::$code = "<?php\n\tDatabase::query(\$sqlStatement,\$params);\n?>";
+		self::$msg = "<b>Params count mismatch</b>: $count";
+		self::$sug = "Change <b>$query</b>";
+		self::render();
+	}
+
+/**
+ * Database SQL error
+ */
+	function databaseSQL($err,$sql) {
+		self::$code = "<?php\n\tDatabase::query(\$sqlStatement,\$params);\n?>";
+		self::$msg = "<b>MySQL error</b>: $err";
+		self::$sug = "Check <b>$sql</b>";
 		self::render();
 	}
 
