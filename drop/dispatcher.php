@@ -30,6 +30,11 @@ class Dispatcher extends Object {
 	var $url = null;
 
 /**
+ * AJAX urls
+ */
+	var $ajax = false;
+
+/**
  * Constructor.
  */
 	function __construct($url = null) {
@@ -82,8 +87,12 @@ class Dispatcher extends Object {
 
 				$controllerVar->afterFilter();
 				
-				if ($controllerVar->autoRender)
-					$controllerVar->render($this->params['action']);
+				if ($controllerVar->autoRender) {
+					if($this->ajax)
+						$controllerVar->render($this->params['action'],"ajax");
+					else
+						$controllerVar->render($this->params['action']);
+				}
 				echo $controllerVar->output;
 			}
 		}
@@ -104,8 +113,10 @@ class Dispatcher extends Object {
 		
 		if (empty($url[0])) {
 			$params['controller'] = 'pages';
-		} else {
-			$params['controller'] = $url[0];
+		} elseif ($url[0]=='ajax') {
+			$this->ajax = true;
+			array_shift($url);
+			$params['controller'] = empty($url[0])?'pages':$url[0];
 		}
 		
 		array_shift($url);
