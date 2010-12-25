@@ -13,8 +13,8 @@
  */
 
 /**
- * Here, we are connecting '/' (base path) to controller called 'Pages' and action 'home'
- * (in this case, /app/views/pages/home.ctp)...
+ * Here, we are connecting '/' (base path) to controller called 'docs' and action 'home'
+ * (in this case, /app/views/docs/home.ctp)...
  */
 	Router::connect('/', array('controller' => 'docs', 'action' => 'home'));
 

@@ -112,11 +112,13 @@ class Dispatcher extends Object {
 		}
 		
 		if (empty($url[0])) {
-			$params['controller'] = 'pages';
+			$params['controller'] = 'docs';
 		} elseif ($url[0]=='ajax') {
 			$this->ajax = true;
 			array_shift($url);
-			$params['controller'] = empty($url[0])?'pages':$url[0];
+			$params['controller'] = empty($url[0])?'docs':$url[0];
+		} else {
+			$params['controller'] = $url[0];
 		}
 		
 		array_shift($url);
