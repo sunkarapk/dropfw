@@ -137,6 +137,12 @@
 	}
 
 /**
+ * Basic class for Object models
+ * Usage: "Model::"
+ */
+	require_once CORE.'model.php';
+
+/**
  * Basic class for using payment modules
  * Usage: "$Pay->"
  */	

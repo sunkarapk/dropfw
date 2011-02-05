@@ -209,8 +209,8 @@ class Inflector extends Object {
 		extract(self::$pluralRules);
 
 		if (!isset($regexUninflected) || !isset($regexIrregular)) {
-			$regexUninflected = __enclose(join( '|', $uninflected));
-			$regexIrregular = __enclose(join( '|', array_keys($irregular)));
+			$regexUninflected = self::__enclose(join( '|', $uninflected));
+			$regexIrregular = self::__enclose(join( '|', array_keys($irregular)));
 			self::$pluralRules['regexUninflected'] = $regexUninflected;
 			self::$pluralRules['regexIrregular'] = $regexIrregular;
 		}

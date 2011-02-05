@@ -79,7 +79,7 @@ class Sanitize extends Object {
 		}
 		if(get_magic_quotes_gpc())
 			$string = Sanitize::stripslashes_deep($string);
-		return mysql_real_escape_string($string);
+		return "'".mysql_real_escape_string($string)."'";
 	}
 
 /**

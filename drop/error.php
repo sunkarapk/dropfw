@@ -49,7 +49,7 @@ class Error extends Object {
 		$model = Inflector::underscore($modelClass);
 		self::$msg = "<b>Missing Model</b>: $modelClass";
 		self::$sug = "Create the class <b>$modelClass</b> in <b>".MODELS.$model.".php</b>";
-		self::$code = "<?php\nclass $modelClass extends Model {\n\n\tvar \$uses = array();\n}\n?>";
+		self::$code = "<?php\nclass $modelClass extends Model {\n\n\tvar \$table = \"$model\";\n}\n?>";
 		self::render();
 	}
 

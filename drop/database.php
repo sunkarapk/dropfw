@@ -97,9 +97,9 @@ class Database extends Object {
  * @params      array	   The array of params in query represented by '#'
  * @return      void
  */
-	public function query( $query, $params = array(), $ret = false ) {
+	public function query($query, $params = array(), $ret = false) {
 		// No parameters presented, execute query
-		if( empty($params) )
+		if(empty($params))
 			return self::exec($query);
 
 		$sql = "";
@@ -119,7 +119,7 @@ class Database extends Object {
 			$type = gettype($val);
 
 			if( $type == 'string' )
-				Sanitize::escape($val);
+				$sql .= Sanitize::escape($val);
 			elseif( $type == 'boolean' )
 				$sql .= ( $val ) ? 1 : 0;
 			elseif( $val === null)
@@ -165,7 +165,7 @@ class Database extends Object {
  * Getting the incremented id of last query
  * @return 	int		Auto-increment ID for last Insert query
  */
-	public function insertId() {
+	public function getID() {
 		return @mysql_insert_id(self::$link);
 	}
 
@@ -191,9 +191,12 @@ class Database extends Object {
 		if(empty($rs))
 			$rs = self::$result;
 
-		if (is_resource($rs))
-			return @mysql_fetch_object($rs);
-		else
+		if (is_resource($rs)) {
+			$ret = array();
+			for($i=0; $i<self::count(); $i++)
+				array_push($ret,@mysql_fetch_object($rs));
+			return $ret;
+		} else
 			return false;
 	}
 
@@ -206,9 +209,12 @@ class Database extends Object {
 		if(empty($rs))
 			$rs = self::$result;
 
-		if (is_resource($rs))
-			return @mysql_fetch_array($rs);
-		else
+		if (is_resource($rs)) {
+			$ret = array();
+			for($i=0; $i<self::count(); $i++)
+				array_push($ret,@mysql_fetch_array($rs));
+			return $ret;
+		} else
 			return false;
 	}
 
