@@ -31,7 +31,7 @@ class Database extends Object {
 /**
  * Database connector
  */
-	function connect() {
+	public static function connect() {
 		if(DB_CONNECT) {
 			$server = DB_HOST.((DB_PORT) ? ':'.DB_PORT : '');
 			self::$link = @mysql_connect($server, DB_USER, DB_PASS);
@@ -49,7 +49,7 @@ class Database extends Object {
  * @params	string	$name	Name of Database
  * @return	void
  */
-	function setdb($name) {
+	public static function setdb($name) {
 		if (!@mysql_select_db($name, self::$link)) {
 			@mysql_close(self::$link);
 			Error::databaseDb($name);
@@ -61,7 +61,7 @@ class Database extends Object {
  * @params	string 	$charset	charset for MySQL database
  * @return 	void
  */
-	function charset($char) {
+	public static function charset($char) {
 		$char = strtolower($char);
 
 		switch($char)
@@ -97,7 +97,7 @@ class Database extends Object {
  * @params      array	   The array of params in query represented by '#'
  * @return      void
  */
-	public function query($query, $params = array(), $ret = false) {
+	public static function query($query, $params = array(), $ret = false) {
 		// No parameters presented, execute query
 		if(empty($params))
 			return self::exec($query);
@@ -144,7 +144,7 @@ class Database extends Object {
  * @params      string	  The sql statement
  * @return      void
  */
-	protected function exec($sql) {
+	protected static function exec($sql) {
 		Timer::start('db');
 		self::$result = @mysql_query($sql, self::$link);
 		Timer::stop('db');
@@ -157,7 +157,7 @@ class Database extends Object {
  * Getting the number of affected rows
  * @return 	int 	Affected rows for last Insert, Update or Delete query
  */
-	public function affected() {
+	public static function affected() {
 		return @mysql_affected_rows(self::$link);
 	}
 
@@ -165,7 +165,7 @@ class Database extends Object {
  * Getting the incremented id of last query
  * @return 	int		Auto-increment ID for last Insert query
  */
-	public function getID() {
+	public static function getID() {
 		return @mysql_insert_id(self::$link);
 	}
 
@@ -174,7 +174,7 @@ class Database extends Object {
  * @params      resource	  The sql resource
  * @return      void
  */
-	public function free($rs = null) {
+	public static function free($rs = null) {
 		if(empty($rs))
 			$rs = self::$result;
 
@@ -187,7 +187,7 @@ class Database extends Object {
  * @params      resource	  The sql resource
  * @return      object
  */
-	public function obj($rs = null) {
+	public static function obj($rs = null) {
 		if(empty($rs))
 			$rs = self::$result;
 
@@ -205,7 +205,7 @@ class Database extends Object {
  * @params      resource	  The sql resource
  * @return      array
  */
-	public function row($rs = null ) {
+	public static function row($rs = null ) {
 		if(empty($rs))
 			$rs = self::$result;
 
@@ -223,7 +223,7 @@ class Database extends Object {
  * @params      resource	  The sql resource
  * @return      int	       Number of rows in resource
  */
-	public function count($rs = null ) {
+	public static function count($rs = null ) {
 		if(empty($rs))
 			$rs = self::$result;
 

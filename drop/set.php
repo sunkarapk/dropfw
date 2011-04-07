@@ -15,11 +15,11 @@
 class Set extends Object {
 
 /**
- * This function can be thought of as a hybrid between PHP's array_merge and array_merge_recursive. The difference
- * to the two is that if an array key contains another array then the function behaves recursive (unlike array_merge)
+ * This public static function can be thought of as a hybrid between PHP's array_merge and array_merge_recursive. The difference
+ * to the two is that if an array key contains another array then the public static function behaves recursive (unlike array_merge)
  * but does not do if for keys containing strings (unlike array_merge_recursive). See the unit test for more information.
  *
- * Note: This function will work with an unlimited amount of arguments and typecasts non-array parameters into arrays.
+ * Note: This public static function will work with an unlimited amount of arguments and typecasts non-array parameters into arrays.
  *
  * @param array $arr1 Array to be merged
  * @param array $arr2 Array to merge with
@@ -27,7 +27,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function merge($arr1, $arr2 = null) {
+	public static function merge($arr1, $arr2 = null) {
 		$args = func_get_args();
 
 		$r = (array)current($args);
@@ -53,7 +53,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function filter($var, $isArray = false) {
+	public static function filter($var, $isArray = false) {
 		if (is_array($var) && (!empty($var) || $isArray)) {
 			return array_filter($var, array('Set', 'filter'));
 		}
@@ -72,7 +72,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function pushDiff($array, $array2) {
+	public static function pushDiff($array, $array2) {
 		if (empty($array) && !empty($array2)) {
 			return $array2;
 		}
@@ -99,7 +99,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function map($class = 'stdClass', $tmp = 'stdClass') {
+	public static function map($class = 'stdClass', $tmp = 'stdClass') {
 		if (is_array($class)) {
 			$val = $class;
 			$class = $tmp;
@@ -122,7 +122,7 @@ class Set extends Object {
  * @return array Array from $array.
  * @access private
  */
-	function __array($array) {
+	public static function __array($array) {
 		if (empty($array)) {
 			$array = array();
 		} elseif (is_object($array)) {
@@ -148,7 +148,7 @@ class Set extends Object {
  * @access private
  * @static
  */
-	function __map(&$array, $class, $primary = false) {
+	public static function __map(&$array, $class, $primary = false) {
 		if ($class === true) {
 			$out = new stdClass;
 		} else {
@@ -210,7 +210,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function numeric($array = null) {
+	public static function numeric($array = null) {
 		if (empty($array)) {
 			return null;
 		}
@@ -247,7 +247,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function enum($select, $list = null) {
+	public static function enum($select, $list = null) {
 		if (empty($list)) {
 			$list = array('no', 'yes');
 		}
@@ -270,7 +270,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function format($data, $format, $keys) {
+	public static function format($data, $format, $keys) {
 
 		$extracted = array();
 		$count = count($keys);
@@ -346,7 +346,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function extract($path, $data = null, $options = array()) {
+	public static function extract($path, $data = null, $options = array()) {
 		if (is_string($data)) {
 			$tmp = $data;
 			$data = $path;
@@ -485,7 +485,7 @@ class Set extends Object {
 		return $r;
 	}
 /**
- * This function can be used to see if a single item or a given xpath match certain conditions.
+ * This public static function can be used to see if a single item or a given xpath match certain conditions.
  *
  * @param mixed $conditions An array of condition strings or an XPath expression
  * @param array $data  An array of data to execute the match on
@@ -494,7 +494,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function matches($conditions, $data = array(), $i = null, $length = null) {
+	public static function matches($conditions, $data = array(), $i = null, $length = null) {
 		if (empty($conditions)) {
 			return true;
 		}
@@ -568,7 +568,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function classicExtract($data, $path = null) {
+	public static function classicExtract($data, $path = null) {
 		if (empty($path)) {
 			return $data;
 		}
@@ -653,7 +653,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function insert($list, $path, $data = null) {
+	public static function insert($list, $path, $data = null) {
 		if (!is_array($path)) {
 			$path = explode('.', $path);
 		}
@@ -683,7 +683,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function remove($list, $path = null) {
+	public static function remove($list, $path = null) {
 		if (empty($path)) {
 			return $list;
 		}
@@ -716,7 +716,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function check($data, $path = null) {
+	public static function check($data, $path = null) {
 		if (empty($path)) {
 			return $data;
 		}
@@ -748,7 +748,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function diff($val1, $val2 = null) {
+	public static function diff($val1, $val2 = null) {
 		if (empty($val1)) {
 			return (array)$val2;
 		}
@@ -784,7 +784,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function isEqual($val1, $val2 = null) {
+	public static function isEqual($val1, $val2 = null) {
 		return ($val1 == $val2);
 	}
 /**
@@ -796,7 +796,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function contains($val1, $val2 = null) {
+	public static function contains($val1, $val2 = null) {
 		if (empty($val1) || empty($val2)) {
 			return false;
 		}
@@ -823,7 +823,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function countDim($array = null, $all = false, $count = 0) {
+	public static function countDim($array = null, $all = false, $count = 0) {
 		if ($all) {
 			$depth = array($count);
 			if (is_array($array) && reset($array) !== false) {
@@ -852,7 +852,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function normalize($list, $assoc = true, $sep = ',', $trim = true) {
+	public static function normalize($list, $assoc = true, $sep = ',', $trim = true) {
 		if (is_string($list)) {
 			$list = explode($sep, $list);
 			if ($trim) {
@@ -904,7 +904,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function combine($data, $path1 = null, $path2 = null, $groupPath = null) {
+	public static function combine($data, $path1 = null, $path2 = null, $groupPath = null) {
 		if (empty($data)) {
 			return array();
 		}
@@ -961,7 +961,7 @@ class Set extends Object {
  * @return array
  * @static
  */
-	function reverse($object) {
+	public static function reverse($object) {
 		$out = array();
 		if (is_a($object, 'XmlNode')) {
 			$out = $object->toArray();
@@ -1009,7 +1009,7 @@ class Set extends Object {
  * @access public
  * @static
  */
-	function flatten($data, $separator = '.') {
+	public static function flatten($data, $separator = '.') {
 		$result = array();
 		$path = null;
 
@@ -1041,7 +1041,7 @@ class Set extends Object {
  * @return array
  * @access private
  */
-	function __flatten($results, $key = null) {
+	public static function __flatten($results, $key = null) {
 		$stack = array();
 		foreach ($results as $k => $r) {
 			$id = $k;
@@ -1065,7 +1065,7 @@ class Set extends Object {
  * @return array
  * @static
  */
-	function sort($data, $path, $dir) {
+	public static function sort($data, $path, $dir) {
 		$result = Set::__flatten(Set::extract($data, $path));
 		list($keys, $values) = array(Set::extract($result, '{n}.id'), Set::extract($result, '{n}.value'));
 

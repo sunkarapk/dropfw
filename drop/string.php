@@ -26,7 +26,7 @@ class String extends Object {
  * @return RFC 4122 UUID
  * @static
  */
-	function uuid() {
+	public static function uuid() {
 		$node = $_SERVER['SERVER_ADDR'];
 		$pid = null;
 
@@ -106,7 +106,7 @@ class String extends Object {
  * @access public
  * @static
  */
-	function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')') {
+	public static function tokenize($data, $separator = ',', $leftBound = '(', $rightBound = ')') {
 		if (empty($data) || is_array($data)) {
 			return $data;
 		}
@@ -197,7 +197,7 @@ class String extends Object {
  * @access public
  * @static
  */
-	function insert($str, $data, $options = array()) {
+	public static function insert($str, $data, $options = array()) {
 		$defaults = array(
 			'before' => ':', 'after' => null, 'escape' => '\\', 'format' => null, 'clean' => false
 		);
@@ -253,7 +253,7 @@ class String extends Object {
 
 /**
  * Cleans up a String::insert() formated string with given $options depending on the 'clean' key in
- * $options. The default method used is text but html is also available. The goal of this function
+ * $options. The default method used is text but html is also available. The goal of this public static function
  * is to replace all whitespace and uneeded markup around placeholders that did not get replaced
  * by String::insert().
  *
@@ -264,7 +264,7 @@ class String extends Object {
  * @static
  * @see String::insert()
  */
-	function cleanInsert($str, $options) {
+	public static function cleanInsert($str, $options) {
 		$clean = $options['clean'];
 		if (!$clean) {
 			return $str;

@@ -34,7 +34,7 @@ class Security extends Object {
  * @access public
  * @static
  */
-	function generateAuthKey() {
+	public static function generateAuthKey() {
 		return Security::hash(String::uuid());
 	}
 
@@ -48,7 +48,7 @@ class Security extends Object {
  * @static
  * @see Security::hash()
  */
-	function setHash($hash) {
+	public static function setHash($hash) {
 		self::$hashType = $hash;
 	}
 
@@ -64,7 +64,7 @@ class Security extends Object {
  * @access public
  * @static
  */
-	function hash($string, $type = null, $salt = false) {
+	public static function hash($string, $type = null, $salt = false) {
 		if ($salt) {
 			if (is_string($salt)) {
 				$string = $salt . $string;
@@ -105,7 +105,7 @@ class Security extends Object {
  * @access public
  * @static
  */
-	function cipher($text, $key) {
+	public static function cipher($text, $key) {
 		if (empty($key)) {
 			Error::emptyCipherKey();
 		}

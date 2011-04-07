@@ -39,7 +39,7 @@ class Timer extends Object {
 /**
  * Get time
  */
-	function getTime() {
+	public static function getTime() {
 		$time = microtime();
 		$time = explode (' ', $time);
 		$time = $time [1] + $time [0];
@@ -49,7 +49,7 @@ class Timer extends Object {
 /**
  * Extend record
  */
-	function extendRecord ($label) {
+	public static function extendRecord ($label) {
 		$value = &self::$timeArray [$label];
 		if ($value ["stop"] > 0) {
 			$value ["range"] = self::$privateTime [$label]["allranges"];
@@ -66,7 +66,7 @@ class Timer extends Object {
 /**
  * Time start
  */
-	function start ($label) {
+	public static function start ($label) {
 		self::$timeArray[$label]["start"] = self::getTime();
 		self::$timeArray[$label]["stop"] = 0;
 		if (! isset (self::$timeArray[$label]["starts"]))
@@ -81,7 +81,7 @@ class Timer extends Object {
 /**
  * Timer stop
  */
-	function stop ($label) {
+	public static function stop ($label) {
 		if (isset (self::$timeArray[$label]["stop"])) {
 			self::$timeArray[$label]["stop"] = self::getTime();
 			self::$privateTime [$label]["allranges"] += self::$timeArray[$label]["stop"]-self::$timeArray[$label]["start"];
@@ -92,7 +92,7 @@ class Timer extends Object {
 /**
  * Timer restart
  */      
-	function restart ($label) {
+	public static function restart ($label) {
 		if (isset (self::$timeArray[$label]["stop"]))
 			unset (self::$privateTime [$label]["allranges"]);
 		self::start ($label);
@@ -101,7 +101,7 @@ class Timer extends Object {
 /**
  * Timer stop all lables
  */
-	function stopAll () {
+	public static function stopAll () {
 		foreach (self::$timeArray as $label => $value)
 			self::stop ($label);
 	}
@@ -109,7 +109,7 @@ class Timer extends Object {
 /**
  * Delete label
  */
-	function del ($label) {
+	public static function del ($label) {
 		if (isset (self::$timeArray[$label])) {
 			unset (self::$timeArray[$label]);
 		}
@@ -118,14 +118,14 @@ class Timer extends Object {
 /**
  * Delete all timer labels
  */
-	function delAll () {
+	public static function delAll () {
 		self::$timeArray = Array ();
 	}
 	
 /**
  * Get timer lablels
  */
-	function get ($label) {
+	public static function get ($label) {
 		if (isset (self::$timeArray[$label])) {
 			self::extendRecord ($label);
 			return self::$timeArray[$label];
@@ -137,7 +137,7 @@ class Timer extends Object {
 /**
  * Get all timers
  */
-	function getAll () {
+	public static function getAll () {
 		foreach (self::$timeArray as $label => $value)
 			self::extendRecord ($label);
 		return self::$timeArray;

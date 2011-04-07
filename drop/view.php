@@ -27,7 +27,7 @@ class View extends Object {
 /**
  * Main rendering function
  */
-	function render($file,$data) {
+	public static function render($file,$data) {
 		extract($data, EXTR_SKIP);
 		extract(self::$help, EXTR_SKIP);
 		ob_start();
@@ -47,7 +47,7 @@ class View extends Object {
 /**
  * Add helper
  */
-	function addhelper($name,$var) {
+	public static function addhelper($name,$var) {
 		self::$help = array_merge(self::$help,array($name => $var));
 	}
 

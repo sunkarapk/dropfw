@@ -223,11 +223,8 @@
 	}
 
 /**
- * Configuration files
+ * Routing file
  */
-
-	//File for inflections in webAPP
-	require_once CONFIGS.'inflections.php';
 	
 	//File for routing in webAPP
 	require_once CONFIGS.'routes.php';

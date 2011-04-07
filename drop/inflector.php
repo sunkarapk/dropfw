@@ -96,15 +96,20 @@ class Inflector extends Object {
 /**
  * Constructor
  */
-	function __construct() {
-		if (file_exists(CONFIGS.'inflections.php')) {
+	function __construct() { }
+	
+/**
+ * Include the inflections from config file
+ */
+	public static function includeConfig() {
+		if(file_exists(CONFIGS.'inflections.php')) {
 			include(CONFIGS.'inflections.php');
 			self::$__pluralRules = $pluralRules;
 			self::$__uninflectedPlural = $uninflectedPlural;
 			self::$__irregularPlural = $irregularPlural;
 			self::$__singularRules = $singularRules;
 			self::$__uninflectedSingular = $uninflectedPlural;
-			self::$__irregularSingular = array_flip($irregularPlural);
+			self::$__irregularSingular = $irregularSingular;
 		}
 	}
 
@@ -114,7 +119,7 @@ class Inflector extends Object {
  * @return void
  * @access private
  */
-	function __initPluralRules() {
+	public static function __initPluralRules() {
 		$corePluralRules = array(
 			'/(s)tatus$/i' => '\1\2tatuses',
 			'/(quiz)$/i' => '\1zes',
@@ -198,7 +203,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function pluralize($word) {
+	public static function pluralize($word) {
 		if (!isset(self::$pluralRules) || empty(self::$pluralRules)) {
 			self::__initPluralRules();
 		}
@@ -239,7 +244,7 @@ class Inflector extends Object {
  * @return void
  * @access protected
  */
-	function __initSingularRules() {
+	public static function __initSingularRules() {
 		$coreSingularRules = array(
 			'/(s)tatuses$/i' => '\1\2tatus',
 			'/^(.*)(menu)s$/i' => '\1\2',
@@ -337,7 +342,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function singularize($word) {
+	public static function singularize($word) {
 		if (!isset(self::$singularRules) || empty(self::$singularRules)) {
 			self::__initSingularRules();
 		}
@@ -382,7 +387,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function camelize($lowerCaseAndUnderscoredWord) {
+	public static function camelize($lowerCaseAndUnderscoredWord) {
 		return str_replace(" ", "", ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord)));
 	}
 
@@ -394,7 +399,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function underscore($camelCasedWord) {
+	public static function underscore($camelCasedWord) {
 		return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $camelCasedWord));
 	}
 
@@ -407,7 +412,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function humanize($lowerCaseAndUnderscoredWord) {
+	public static function humanize($lowerCaseAndUnderscoredWord) {
 		return ucwords(str_replace("_", " ", $lowerCaseAndUnderscoredWord));
 	}
 
@@ -419,7 +424,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function tableize($className) {
+	public static function tableize($className) {
 		return self::pluralize(self::underscore($className));
 	}
 
@@ -431,7 +436,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function classify($tableName) {
+	public static function classify($tableName) {
 		return self::camelize(self::singularize($tableName));
 	}
 
@@ -443,7 +448,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function variable($string) {
+	public static function variable($string) {
 		$string = self::camelize(self::underscore($string));
 		$replace = strtolower(substr($string, 0, 1));
 		return preg_replace('/\\w/', $replace, $string, 1);
@@ -459,7 +464,7 @@ class Inflector extends Object {
  * @access public
  * @static
  */
-	function slug($string, $replacement = '_') {
+	public static function slug($string, $replacement = '_') {
 		$map = array(
 			'/à|á|å|â/' => 'a',
 			'/è|é|ê|ẽ|ë/' => 'e',
@@ -488,7 +493,7 @@ class Inflector extends Object {
  * @param string $string String to enclose
  * @return string Enclosed string
  */
-	function __enclose($string) {
+	public static function __enclose($string) {
 		return '(?:' . $string . ')';
 	}
 

@@ -204,13 +204,12 @@ class Html extends Object {
  * Creates an HTML link.
  *
  * If $url starts with "http://" this is treated as an external link. Else,
- * it is treated as a path to controller/action and parsed with the
- * HtmlHelper::url() method.
+ * it is treated as a path to controller/action and parsed
  *
  * If the $url is empty, $title is used instead.
  *
  * @param  string  $title The content to be wrapped by <a> tags.
- * @param  mixed   $url Cake-relative URL or array of URL parameters, or external URL (starts with http://)
+ * @param  mixed   $url relative URL or array of URL parameters, or external URL (starts with http://)
  * @param  array   $htmlAttributes Array of HTML attributes.
  * @param  string  $confirmMessage JavaScript confirmation message.
  * @param  boolean $escapeTitle	Whether or not $title should be HTML escaped.
@@ -707,8 +706,27 @@ class Html extends Object {
  * @param string url
  * @return string url
  */
-	function url($url, $full) {
-		return $url;
+	function url($url, $full=true) {
+		if(is_array($url)) {
+			$str = BASE;
+			if(isset($url['controller'])) {
+				$str.= DS.$url['controller'];
+				array_shift($url);
+			} else
+				$str.= DS.CONTROLLER;
+			if(isset($url['action'])) {
+				$str.= DS.$url['action'];
+				array_shift($url);
+			} else
+				$str.= DS.ACTION;
+			if(count($url)>0)
+				$str.= DS.implode('/',$url);
+			return $str;
+		} else if (substr($url, 0, 7) == 'http://') {
+			return $url;
+		} else {
+			return BASE.$url;
+		}
 	}
 
 }

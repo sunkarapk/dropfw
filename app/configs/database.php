@@ -26,6 +26,6 @@
 
 	define('DB_CHARSET', 'utf-8');
 
-	define('DB_CONNECT', false);
+	define('DB_CONNECT', true);
 
 ?>

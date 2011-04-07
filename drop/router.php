@@ -22,15 +22,13 @@ class Router extends Object {
 /**
  * Constructor.
  */
-	function __construct() {
-	
-	}
+	function __construct() { }
 
 /**
  * Connector which connects one URL to another params.
  * @param mixed $url relative URL, like "/products/edit/92" or "/presidents/elect/4"
  */
-	function connect($url,$params) {
+	public static function connect($url,$params) {
 		$paramsnew = self::extract($url);
 		array_push(self::$map,array($paramsnew,$params));
 	}
@@ -39,13 +37,14 @@ class Router extends Object {
  * GetLink which examines the params it recieve and do proper inclusion if connected
  * @param mixed $params
  */
-	function getLink($params) {
+	public static function getLink($params) {
 		for($i=0;!empty(self::$map[$i]);$i++) {
-			if($params['controller'] == self::$map[$i][0]['controller']) {
-				if($params['action'] == self::$map[$i][0]['action']) {
+			if($params['controller'] == self::$map[$i][0]['controller'] && $params['action'] == self::$map[$i][0]['action']) {
 					$params['controller'] = self::$map[$i][1]['controller'];
 					$params['action'] = self::$map[$i][1]['action'];
-				}
+					if(isset($params['params'])) {
+						$params['params'] = self::$map[$i][1]['params'];
+					}
 			}
 		}
 		return $params;
@@ -56,7 +55,7 @@ class Router extends Object {
  * @param mixed $url relative URL, like "/products/edit/92" or "/presidents/elect/4"
  * @return array $params Array with keys 'controller', 'action', 'params'
  */
-	function extract($url) {
+	public static function extract($url) {
 		$params = array();
 		$url = explode('/',$url);
 		

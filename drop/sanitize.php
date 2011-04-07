@@ -28,7 +28,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function paranoid($string, $allowed = array()) {
+	public static function paranoid($string, $allowed = array()) {
 		$allow = null;
 		if (!empty($allowed)) {
 			foreach ($allowed as $value) {
@@ -53,7 +53,7 @@ class Sanitize extends Object {
  * @param array $values Array of values to strip slashes
  * @return mixed What is returned from calling stripslashes
  */
-	function stripslashes_deep($values) {
+	public static function stripslashes_deep($values) {
 		if (is_array($values)) {
 			foreach ($values as $key => $value) {
 				$values[$key] = Sanitize::stripslashes_deep($value);
@@ -73,7 +73,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function escape($string) {
+	public static function escape($string) {
 		if (is_numeric($string) || $string === null || is_bool($string)) {
 			return $string;
 		}
@@ -92,7 +92,7 @@ class Sanitize extends Object {
  *
  * - remove (boolean) if true strips all HTML tags before encoding
  * - charset (string) the charset used to encode the string
- * - quotes (int) see http://php.net/manual/en/function.htmlentities.php
+ * - quotes (int) see http://php.net/manual/en/public static function.htmlentities.php
  *
  * @param string $string String from where to strip tags
  * @param array $options Array of options to use.
@@ -100,7 +100,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function html($string, $options = array()) {
+	public static function html($string, $options = array()) {
 		static $defaultCharset = false;
 		if ($defaultCharset === false) {
 			$defaultCharset = Configure::read('App.encoding');
@@ -131,7 +131,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function stripWhitespace($str) {
+	public static function stripWhitespace($str) {
 		$r = preg_replace('/[\n\r\t]+/', '', $str);
 		return preg_replace('/\s{2,}/', ' ', $r);
 	}
@@ -144,7 +144,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function stripImages($str) {
+	public static function stripImages($str) {
 		$str = preg_replace('/(<a[^>]*>)(<img[^>]+alt=")([^"]*)("[^>]*>)(<\/a>)/i', '$1$3$5<br />', $str);
 		$str = preg_replace('/(<img[^>]+alt=")([^"]*)("[^>]*>)/i', '$2<br />', $str);
 		$str = preg_replace('/<img[^>]*>/i', '', $str);
@@ -159,7 +159,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function stripScripts($str) {
+	public static function stripScripts($str) {
 		return preg_replace('/(<link[^>]+rel="[^"]*stylesheet"[^>]*>|<img[^>]*>|style="[^"]*")|<script[^>]*>.*?<\/script>|<style[^>]*>.*?<\/style>|<!--.*?-->/is', '', $str);
 	}
 
@@ -170,7 +170,7 @@ class Sanitize extends Object {
  * @return string sanitized string
  * @access public
  */
-	function stripAll($str) {
+	public static function stripAll($str) {
 		$str = Sanitize::stripWhitespace($str);
 		$str = Sanitize::stripImages($str);
 		$str = Sanitize::stripScripts($str);
@@ -191,7 +191,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function stripTags() {
+	public static function stripTags() {
 		$params = params(func_get_args());
 		$str = $params[0];
 
@@ -222,7 +222,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function clean($data, $options = array()) {
+	public static function clean($data, $options = array()) {
 		if (empty($data)) {
 			return $data;
 		}
@@ -286,7 +286,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function formatColumns(&$model) {
+	public static function formatColumns(&$model) {
 		foreach ($model->data as $name => $values) {
 			if ($name == $model->alias) {
 				$curModel =& $model;
@@ -339,7 +339,7 @@ class Sanitize extends Object {
  * @param string $charset Character set to use when escaping.  Defaults to config value in 'App.encoding' or 'UTF-8'
  * @return string Wrapped text
  */
-	function hsc($text, $charset = null) {
+	public static function hsc($text, $charset = null) {
 		if (is_array($text)) {
 			return array_map('h', $text);
 		}
@@ -367,7 +367,7 @@ class Sanitize extends Object {
  * @access public
  * @static
  */
-	function ascii($array) {
+	public static function ascii($array) {
 		$ascii = '';
 
 		foreach ($array as $utf8) {

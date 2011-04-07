@@ -83,7 +83,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function notEmpty($check) {
+	public static function notEmpty($check) {
 		self::__reset();
 		self::$check = $check;
 
@@ -110,7 +110,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function alphaNumeric($check) {
+	public static function alphaNumeric($check) {
 		self::__reset();
 		self::$check = $check;
 
@@ -136,7 +136,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function between($check, $min, $max) {
+	public static function between($check, $min, $max) {
 		$length = mb_strlen($check);
 		return ($length >= $min && $length <= $max);
 	}
@@ -152,7 +152,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function blank($check) {
+	public static function blank($check) {
 		self::__reset();
 		self::$check = $check;
 
@@ -178,7 +178,7 @@ class Validation extends Object {
  * @access public
  * @see Validation::_luhn()
  */
-	function cc($check, $type = 'fast', $deep = false, $regex = null) {
+	public static function cc($check, $type = 'fast', $deep = false, $regex = null) {
 		self::__reset();
 		self::$check = $check;
 		self::$type = $type;
@@ -255,7 +255,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function comparison($check1, $operator = null, $check2 = null) {
+	public static function comparison($check1, $operator = null, $check2 = null) {
 		if (is_array($check1)) {
 			extract($check1, EXTR_OVERWRITE);
 		}
@@ -314,7 +314,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function custom($check, $regex = null) {
+	public static function custom($check, $regex = null) {
 		self::__reset();
 		self::$check = $check;
 		self::$regex = $regex;
@@ -345,7 +345,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function date($check, $format = 'ymd', $regex = null) {
+	public static function date($check, $format = 'ymd', $regex = null) {
 		self::__reset();
 		self::$check = $check;
 		self::$regex = $regex;
@@ -383,7 +383,7 @@ class Validation extends Object {
  * @access public
  */
 
-	function time($check) {
+	public static function time($check) {
 		self::__reset();
 		self::$check = $check;
 		self::$regex = '%^((0?[1-9]|1[012])(:[0-5]\d){0,2}([AP]M|[ap]m))$|^([01]\d|2[0-3])(:[0-5]\d){0,2}$%';
@@ -397,7 +397,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function boolean($check) {
+	public static function boolean($check) {
 		$booleanList = array(0, 1, '0', '1', true, false);
 		return in_array($check, $booleanList, true);
 	}
@@ -412,7 +412,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function decimal($check, $places = null, $regex = null) {
+	public static function decimal($check, $places = null, $regex = null) {
 		self::__reset();
 		self::$regex = $regex;
 		self::$check = $check;
@@ -436,7 +436,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function email($check, $deep = false, $regex = null) {
+	public static function email($check, $deep = false, $regex = null) {
 		self::__reset();
 		self::$check = $check;
 		self::$regex = $regex;
@@ -475,7 +475,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function equalTo($check, $comparedTo) {
+	public static function equalTo($check, $comparedTo) {
 		return ($check === $comparedTo);
 	}
 
@@ -487,7 +487,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function extension($check, $extensions = array('gif', 'jpeg', 'png', 'jpg')) {
+	public static function extension($check, $extensions = array('gif', 'jpeg', 'png', 'jpg')) {
 		if (is_array($check)) {
 			return self::extension(array_shift($check), $extensions);
 		}
@@ -513,7 +513,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function ip($check, $type = 'both') {
+	public static function ip($check, $type = 'both') {
 		$success = false;
 		$type = strtolower($type);
 		if ($type === 'ipv4' || $type === 'both') {
@@ -532,7 +532,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access protected
  */
-	function _ipv4($check) {
+	public static function _ipv4($check) {
 		if (function_exists('filter_var')) {
 			return filter_var($check, FILTER_VALIDATE_IP, array('flags' => FILTER_FLAG_IPV4)) !== false;
 		}
@@ -549,7 +549,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access protected
  */
-	function _ipv6($check) {
+	public static function _ipv6($check) {
 		if (function_exists('filter_var')) {
 			return filter_var($check, FILTER_VALIDATE_IP, array('flags' => FILTER_FLAG_IPV6)) !== false;
 		}
@@ -567,7 +567,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function minLength($check, $min) {
+	public static function minLength($check, $min) {
 		$length = mb_strlen($check);
 		return ($length >= $min);
 	}
@@ -580,7 +580,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function maxLength($check, $max) {
+	public static function maxLength($check, $max) {
 		$length = mb_strlen($check);
 		return ($length <= $max);
 	}
@@ -593,7 +593,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function money($check, $symbolPosition = 'left') {
+	public static function money($check, $symbolPosition = 'left') {
 		self::$check = $check;
 
 		if ($symbolPosition == 'right') {
@@ -618,7 +618,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function multiple($check, $options = array()) {
+	public static function multiple($check, $options = array()) {
 		$defaults = array('in' => null, 'max' => null, 'min' => null);
 		$options = array_merge($defaults, $options);
 		$check = array_filter((array)$check);
@@ -648,7 +648,7 @@ class Validation extends Object {
  * @return boolean Succcess
  * @access public
  */
-	function numeric($check) {
+	public static function numeric($check) {
 		return is_numeric($check);
 	}
 
@@ -661,7 +661,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function phone($check, $regex = null, $country = 'all') {
+	public static function phone($check, $regex = null, $country = 'all') {
 		self::$check = $check;
 		self::$regex = $regex;
 		self::$country = $country;
@@ -694,7 +694,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function postal($check, $regex = null, $country = null) {
+	public static function postal($check, $regex = null, $country = null) {
 		self::$check = $check;
 		self::$regex = $regex;
 		self::$country = $country;
@@ -742,7 +742,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function range($check, $lower = null, $upper = null) {
+	public static function range($check, $lower = null, $upper = null) {
 		if (!is_numeric($check)) {
 			return false;
 		}
@@ -761,7 +761,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function ssn($check, $regex = null, $country = null) {
+	public static function ssn($check, $regex = null, $country = null) {
 		self::$check = $check;
 		self::$regex = $regex;
 		self::$country = $country;
@@ -795,7 +795,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function uuid($check) {
+	public static function uuid($check) {
 		self::$check = $check;
 		self::$regex = '/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i';
 		return self::_check();
@@ -819,7 +819,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access public
  */
-	function url($check, $strict = false) {
+	public static function url($check, $strict = false) {
 		self::__populateIp();
 		self::$check = $check;
 		$validChars = '([' . preg_quote('!"$&\'()*+,-.@_:;=~') . '\/0-9a-z]|(%[0-9a-f]{2}))';
@@ -840,7 +840,7 @@ class Validation extends Object {
  * @return boolean Succcess
  * @access public
  */
-	function inList($check, $list) {
+	public static function inList($check, $list) {
 		return in_array($check, $list);
 	}
 
@@ -854,7 +854,7 @@ class Validation extends Object {
  * @return mixed user-defined class class method returns
  * @access public
  */
-	function userDefined($check, $object, $method, $args = null) {
+	public static function userDefined($check, $object, $method, $args = null) {
 		return call_user_func_array(array(&$object, $method), array($check, $args));
 	}
 
@@ -869,7 +869,7 @@ class Validation extends Object {
  * @return mixed Return of Passed method, false on failure
  * @access protected
  **/
-	function _pass($method, $check, $classPrefix) {
+	public static function _pass($method, $check, $classPrefix) {
 		$className = ucwords($classPrefix) . 'Validation';
 		if (!class_exists($className)) {
 			Error::validationClass($className);
@@ -889,7 +889,7 @@ class Validation extends Object {
  * @return boolean Success of match
  * @access protected
  */
-	function _check() {
+	public static function _check() {
 		if (preg_match(self::$regex, self::$check)) {
 			return true;
 		} else {
@@ -905,7 +905,7 @@ class Validation extends Object {
  * @return void
  * @access protected
  */
-	function _extract($params) {
+	public static function _extract($params) {
 		extract($params, EXTR_OVERWRITE);
 
 		if (isset($check)) {
@@ -932,7 +932,7 @@ class Validation extends Object {
  * @return boolean Success
  * @access protected
  */
-	function _luhn() {
+	public static function _luhn() {
 		if (self::$deep !== true) {
 			return true;
 		}
@@ -960,7 +960,7 @@ class Validation extends Object {
  * @return void
  * @access private
  */
-	function __populateIp() {
+	public static function __populateIp() {
 		if (!isset(self::$__pattern['IPv6'])) {
 			$pattern  = '((([0-9A-Fa-f]{1,4}:){7}(([0-9A-Fa-f]{1,4})|:))|(([0-9A-Fa-f]{1,4}:){6}';
 			$pattern .= '(:|((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})';
@@ -991,7 +991,7 @@ class Validation extends Object {
  * @return void
  * @access private
  */
-	function __reset() {
+	public static function __reset() {
 		self::$check = null;
 		self::$regex = null;
 		self::$country = null;

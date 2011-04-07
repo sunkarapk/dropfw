@@ -38,7 +38,7 @@ class Object {
  * @return void
  * @access protected
  */
-	function set($properties = array()) {
+	function setObject($properties = array()) {
 		if (is_array($properties) && !empty($properties)) {
 			$vars = get_object_vars($this);
 			foreach ($properties as $key => $val) {
@@ -55,7 +55,7 @@ class Object {
  * @return void
  * @access public
  */
-	function stop($status = 0) {
+	function stopExec($status = 0) {
 		exit($status);
 	}
 

@@ -54,6 +54,9 @@ class Dispatcher extends Object {
  * @return boolean Success
  */
 	function dispatch() {
+		define('CONTROLLER', $this->params['controller']);
+		define('ACTION', $this->params['action']);
+
 		$this->params = Router::getLink($this->params);
 
 		$filename = $this->params['controller'].'.php';
@@ -64,8 +67,7 @@ class Dispatcher extends Object {
 
 		if(!class_exists($classname)) {
 			Error::missingController($this->params['controller']);
-		}
-		else {
+		} else {
 			eval("\$controllerVar = new $classname();");
 
 			if (!in_array(strtolower($this->params['action']),$controllerVar->methods)) {

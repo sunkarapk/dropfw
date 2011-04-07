@@ -13,6 +13,7 @@
  */
 
 	Database::connect();
+	Inflector::includeConfig();
 	$i18n = new I18n();
 	$dispatch = new Dispatcher(URL);
 

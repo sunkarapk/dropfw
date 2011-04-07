@@ -26,7 +26,7 @@ class Configure extends Object {
  * @return void
  * @access public
  */
-	function write($config, $value = null) {
+	public static function write($config, $value = null) {
 		if (!is_array($config)) {
 			$config = array($config => $value);
 		}
@@ -54,7 +54,7 @@ class Configure extends Object {
  * @return string value of Configure::$var
  * @access public
  */
-	function read($var) {
+	public static function read($var) {
 		$name = self::configVarNames($var);
 
 		switch (count($name)) {
@@ -83,7 +83,7 @@ class Configure extends Object {
  * @return void
  * @access public
  */
-	function delete($var) {
+	public static function delete($var) {
 		$name = self::configVarNames($var);
 
 		if (count($name) > 2) {
@@ -101,7 +101,7 @@ class Configure extends Object {
  * @return boolean
  * @access public
  */
-	function check($var) {
+	public static function check($var) {
 		$name = self::configVarNames($var);
 		
 		if(array_key_exists($name[0],self::$info)) {
@@ -133,7 +133,7 @@ class Configure extends Object {
  * @return array Name separated in items through dot notation
  * @access private
  */
-	protected function configVarNames($name) {
+	protected static function configVarNames($name) {
 		if (is_string($name)) {
 			if (strpos($name, ".")) {
 				return explode(".", $name);
