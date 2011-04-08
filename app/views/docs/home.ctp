@@ -14,7 +14,7 @@
 ?>
 	<div>
 		<p>dropFW is a new personal PHP Web Development Framework written by Pavan Kumar Sunkara taking references from cakePHP. It's name is derived from the concept of dropping the necessary libraray file into the application instead of always including them but not using them.</p>
-		<p><?php print $html->link('Table of Contents', array('action'=>'contents', 24, 35)); ?></p>
+		<p><?php print $html->link('Documentation Table of Contents', array('action'=>'contents')); ?></p>
 		<p>Some styles are given below:</p>
 	</div>
 	<p class='error'>&lt;p class='error'&gt;Error&lt;/p&gt;</p>

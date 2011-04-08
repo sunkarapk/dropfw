@@ -30,6 +30,7 @@ class Html extends Object {
 		'metalink' => '<link href="%s"%s/>',
 		'link' => '<a href="%s"%s>%s</a>',
 		'mailto' => '<a href="mailto:%s" %s>%s</a>',
+		'bookmark' => '<a href=# name="%s"%s>%s</a>',
 		'form' => '<form %s>',
 		'formend' => '</form>',
 		'input' => '<input name="%s" %s/>',
@@ -252,6 +253,17 @@ class Html extends Object {
 		}
 		return sprintf($this->tags['link'], $url, $this->_parseAttributes($htmlAttributes), $title);
 	}
+
+/**
+ * Creates a bookmark for uses by #
+ *
+ * @param string $name The bookmark name
+ * return string Anchor tag with name attribute set to $name
+ */
+	function bookmark($name = null) {
+		return sprintf($this->tags['bookmark'], $name, $this->_parseAttributes(array('class'=>'bookmark')), '&para;');
+	}
+
 /**
  * Creates a link element for CSS stylesheets.
  *
@@ -722,6 +734,8 @@ class Html extends Object {
 			if(count($url)>0)
 				$str.= DS.implode('/',$url);
 			return $str;
+		} else if(substr($url, 0, 1) == '#' || substr($url, 0, 1) == '?') {
+			return $url;
 		} else if (substr($url, 0, 7) == 'http://') {
 			return $url;
 		} else {

@@ -25,7 +25,16 @@ class DocsController extends Controller
 
 	function home() { }
 
-	function contents() { }
+	function contents() {
+		$list = array('Introduction', 'Configuration', '');
+		$link = array('intro', 'configure');
+		$this->set('list', $list);
+		$this->set('link', $link);
+	}
+	
+	function intro() { }
+	
+	function configure() { }
 
 }
 

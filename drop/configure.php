@@ -15,7 +15,7 @@
 class Configure extends Object {
 
 /**
- * The main variable where all the config infor is stored
+ * The main variable where all the config information is stored
  */
 	protected static $info = array();
 

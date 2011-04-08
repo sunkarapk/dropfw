@@ -36,6 +36,39 @@ h1 {
 div {
 	font-family: cursive;
 }
+
+/** Documentation */
+div.doc {
+	background-color: #f9f9f9;
+	color: #000000;
+	padding: 10px;
+	font-size: 13px;
+	font-family: HelveticaNeue-Light, HelveticaNeue, Helvetica, Arial, sans-serif;
+}
+
+div.doc a {
+	color: #008888;
+	font-weight: bold;
+}
+
+div.doc a:hover {
+	background-color: #008888;
+	color: #FFFFFF;
+	padding: 2px;
+}
+
+div.doc pre {
+	font-size: 15px;
+	overflow: hidden;
+}
+
+div.doc a.bookmark:hover {
+	background-color: #008888;
+	color: #FFFFFF;
+	padding: 3px;
+	font-style: normal;
+}
+
 /** Header and Others **/
 #header {
 	background-color: #ff358b;
