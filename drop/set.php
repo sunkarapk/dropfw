@@ -1086,6 +1086,22 @@ class Set extends Object {
 		return $sorted;
 	}
 
+/**
+ * Searches for a value in the second level of an array
+ *
+ * @params array Input array
+ * @params mixed value
+ * @retrun integer
+ * @static
+ */
+	public static function secondDimSearch($data, $value) {
+		for($i=0; $i<count($data); $i++) {
+			if(in_array($value, $data[$i]))
+				return $i;
+		}
+		return -1;
+	}
+
 }
 
 ?>

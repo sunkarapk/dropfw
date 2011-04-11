@@ -56,6 +56,25 @@ class Database extends Object {
 		}
 	}
 
+/*
+ * Show the tables in the database
+ * @return array
+ */
+	public static function showTables() {
+		self::exec('SHOW TABLES');
+		return self::row();
+	}
+
+/**
+ * Describe a table
+ * @param string $table Table name to describe
+ * @return array
+ */
+	public static function describeTable($table) {
+		self::query('DESCRIBE @',array($table));
+		return self::row();
+	}
+
 /**
  * Sets the charset for the database
  * @params	string 	$charset	charset for MySQL database
@@ -64,8 +83,7 @@ class Database extends Object {
 	public static function charset($char) {
 		$char = strtolower($char);
 
-		switch($char)
-		{
+		switch($char) {
 				case "utf-8":
 				$char = "utf8";
 				break;
@@ -165,7 +183,7 @@ class Database extends Object {
  * Getting the incremented id of last query
  * @return 	int		Auto-increment ID for last Insert query
  */
-	public static function getID() {
+	public static function getId() {
 		return @mysql_insert_id(self::$link);
 	}
 
