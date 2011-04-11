@@ -37,7 +37,7 @@ class Controller extends Object {
  * @var mixed A single name as a string or a list of names as an array.
  * @access protected
  */
-	var $uses = false;
+	var $uses = array();
 
 /**
  * An array containing the names of helpers this controller uses. The array elements should
