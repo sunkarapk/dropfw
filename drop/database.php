@@ -230,7 +230,7 @@ class Database extends Object {
 		if (is_resource($rs)) {
 			$ret = array();
 			for($i=0; $i<self::count(); $i++)
-				array_push($ret,@mysql_fetch_array($rs));
+				array_push($ret,@mysql_fetch_assoc($rs));
 			return $ret;
 		} else
 			return false;

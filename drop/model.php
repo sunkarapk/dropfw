@@ -126,15 +126,106 @@ class Model extends Object {
 	}
 
 /**
+ * Method to call basic query
+ */
+	function query($sql) {
+		Database::query($sql, array());
+		return Database::row();
+	}
+
+/**
+ * Main method to retreive data
+ */
+	function find($type = 'first', $params = array()) {
+		if(empty($params['fields'])) {
+			$params['fields']=array();
+		}
+		if(empty($params['limit'])) {
+			$params['limit']=array();
+		}
+		if(empty($params['order'])) {
+			$params['order']=array();
+		}
+		if(empty($params['group'])) {
+			$params['group']=array();
+		}
+		if(empty($params['conditions'])) {
+			$params['conditions']=array();
+		}
+		switch ($type) {
+			case 'count':
+				$params['fields'] = 'count(*)';
+				break;
+			case 'first':
+				$params['limit'] = array(1);
+			case 'all':
+			default:
+				break;
+		}
+		return $this->retreive($params);
+	}
+
+/**
+ * Method to insert a new entry
+ */
+	function create() {
+		Database::query('INSERT INTO @ VALUES ()', array($this->table));
+		$this->id = Database::getId();
+	}
+
+/**
+ * Method to save data
+ */
+	function save() {
+		$params = array();
+		$str = array();
+		for($i=0; $i<count($this->schema); $i++) {
+			if($this->schema[$i]['Field']!='id') {
+				array_push($params, $this->data[$this->schema[$i]['Field']]);
+				array_push($str, $this->schema[$i]['Field'].'=#');
+			}
+		}
+		array_unshift($params, $this->table);
+		Database::query('UPDATE @ SET '.implode(',', $str).' WHERE id=#', $params);
+	}
+
+/**
+ * Method to delete entry
+ */
+	function deleteById($id) {
+		$this->delete(array('id='=>$id));
+	}
+
+/**
+ * Method to delte entry with given conditions
+ */
+	function delete($params) {
+		$sqlParams = array();
+		if(empty($params)) {
+			$condCond = '';
+		} else {
+			$condCond = 'WHERE ';
+			$condCondArr = array();
+			foreach($params as $key=>$value) {
+				array_push($condCondArr,$key.'#');
+				array_push($sqlParams,$value);
+			}
+			$condCond.=implode(' AND ', $condCondArr);
+		}
+		array_unshift($sqlParams, $this->table);
+		Database::query('DELETE FROM @ '.$condCond, $sqlParams);
+	}
+
+/**
  * Method to invoke dynamic methods
  */
 	function __call($method, $params) {
 		if(substr($method,0,6)=='findBy') {
-			$this->column = Inflector::underscore(substr_replace($method, '', 0, 6));
-			return $this->retreive($params);
+			$column = Inflector::underscore(substr_replace($method, '', 0, 6)).'=';
+			return $this->find('first', array('conditions'=>array($column => $params[0])));
 		} else if(substr($method,0,9)=='findAllBy') {
-			$this->column = Inflector::underscore(substr_replace($method, '', 0, 9));
-			return $this->retreive($params);
+			$column = Inflector::underscore(substr_replace($method, '', 0, 9)).'=';
+			return $this->find('all', array('conditions'=>array($column => $params[0])));
 		}
 	}
 
@@ -142,8 +233,43 @@ class Model extends Object {
  * Method to implement every retreiving query
  */
 	function retreive($params) {
-		array_unshift($params, $this->table);
-		$this->data = Database::row(Database::query('SELECT * FROM @ WHERE '.$this->column.'=#', $params, true));
+		if(empty($params['limit'])) {
+			$limitCond = '';
+		} elseif(count($params['limit'])==1) {
+			$limitCond = ' LIMIT '.$params['limit'][0];
+		} else {
+			$limitCond = ' LIMIT '.$params['limit'][0].','.$params['limit'][1];
+		}
+		if(empty($params['group'])) {
+			$groupCond = '';
+		} else {
+			$groupCond = ' GROUP BY '.$params['group'];
+		}
+		if(empty($params['order'])) {
+			$orderCond = '';
+		} else {
+			$orderCond = ' ORDER BY '.$params['order'];
+		}
+		if(empty($params['fields'])) {
+			$fieldsCond = '*';
+		} else {
+			$fieldsCond = implode(',', $params['fields']);
+		}
+		$sqlParams = array();
+		if(empty($params['conditions'])) {
+			$condCond = '';
+		} else {
+			$condCond = 'WHERE ';
+			$condCondArr = array();
+			foreach($params['conditions'] as $key=>$value) {
+				array_push($condCondArr,$key.'#');
+				array_push($sqlParams,$value);
+			}
+			$condCond.=implode(' AND ', $condCondArr);
+		}
+		array_unshift($sqlParams, $this->table);
+		$sqlStatement = 'SELECT '.$fieldsCond.' FROM @ '.$condCond.$orderCond.$groupCond.$limitCond;
+		$this->data = Database::row(Database::query($sqlStatement, $sqlParams, true));
 		if($this->isParent) {
 			$this->data = $this->data[0];
 			$this->id = $this->data['id'];
@@ -167,8 +293,11 @@ class Model extends Object {
 				$mtmData = Database::row(Database::query('SELECT '.Inflector::underscore($this->manyToMany[$i]).'_id FROM @ WHERE '.Inflector::underscore(get_class($this)).'_id=#', array($mtmTable, $this->id), true));
 				$mtmArr = array();
 				for($j=0; isset($mtmData[$j]); $j++) {
-					$this->{$this->manyToMany[$i]}->findAllById($mtmData[$j][0]);
-					array_push($mtmArr, $this->{$this->manyToMany[$i]}->data[0]);
+					$mtmDataJ = $mtmData[$j][Inflector::underscore($this->manyToMany[$i]).'_id'];
+					$this->{$this->manyToMany[$i]}->findAllById($mtmDataJ);
+					$mtmBuf = Database::row(Database::query('SELECT '.Inflector::underscore(get_class($this)).'_id FROM @ WHERE '.Inflector::underscore($this->manyToMany[$i]).'_id=# and  '.get_class($this).'_id!=#', array($mtmTable, $mtmDataJ, $this->id), true));
+					$mtmArrJ = array($this->{$this->manyToMany[$i]}->data[0], get_class($this)=>$mtmBuf);
+					array_push($mtmArr, $mtmArrJ);
 				}
 				$this->data[$this->manyToMany[$i]] = $mtmArr;
 			}
