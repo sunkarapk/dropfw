@@ -215,7 +215,7 @@ class Html extends Object {
  * @param  boolean $escapeTitle	Whether or not $title should be HTML escaped.
  * @return string	An <a /> element.
  */
-	function link($title, $url = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
+	function link($title, $url = null, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = false) {
 		if ($url !== null) {
 			$url = $this->url($url);
 		} else {
@@ -427,9 +427,22 @@ class Html extends Object {
  * @return string
  */
 	function image($path, $options = array()) {
-		if (strpos($path, '://') === false) {
-			if ($path[0] !== '/') {
-				$path = WEBIMG . $path;
+		if(is_array($path)) {
+			if (strpos($path[0], '://') === false) {
+				if ($path[0][0] !== '/') {
+					$path[0] = WEBIMG . $path[0];
+				}
+			}
+			if (strpos($path[1], '://') === false) {
+				if ($path[1][0] !== '/') {
+					$path[1] = WEBIMG . $path[1];
+				}
+			}
+		} else {
+			if (strpos($path, '://') === false) {
+				if ($path[0] !== '/') {
+					$path = WEBIMG . $path;
+				}
 			}
 		}
 
@@ -443,6 +456,11 @@ class Html extends Object {
 			unset($options['url']);
 		}
 
+		if(is_array($path)) {
+			$options['onmouseout'] = 'this.src="'.$path[0].'"';
+			$options['onmouseover'] = 'this.src="'.$path[1].'"';
+			$path = $path[0];
+		}
 		$image = sprintf($this->tags['image'], $path, $this->_parseAttributes($options, null, '', ' '));
 		if ($url) {
 			return sprintf($this->tags['link'], $this->url($url), null, $image);
@@ -717,8 +735,7 @@ class Html extends Object {
 			if(isset($url['action'])) {
 				$str.= DS.$url['action'];
 				array_shift($url);
-			} else
-				$str.= DS.ACTION;
+			}
 			if(count($url)>0)
 				$str.= DS.implode('/',$url);
 			return $str;

@@ -59,7 +59,8 @@ class Timer extends Object {
 			$value ["status"] = "running";
 		}
 		$value ["average"] = $value["range"]/$value["starts"];
-		$value ["average_human"] = sprintf ("%01.2f", $value ["average"]); 
+		$value ["average_human"] = sprintf ("%01.2f", $value ["average"]);
+		$value ["ms"] = sprintf("%d", $value["average"]*1000);
 		$value ["range_human"] = sprintf ("%01.2f", $value ["range"]); 
 	}
 	
@@ -125,10 +126,10 @@ class Timer extends Object {
 /**
  * Get timer lablels
  */
-	public static function get ($label) {
+	public static function get ($label, $type) {
 		if (isset (self::$timeArray[$label])) {
 			self::extendRecord ($label);
-			return self::$timeArray[$label];
+			return self::$timeArray[$label][$type];
 		} else {
 			return false;
 		}

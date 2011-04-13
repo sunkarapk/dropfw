@@ -55,7 +55,6 @@ class Dispatcher extends Object {
  */
 	function dispatch() {
 		define('CONTROLLER', $this->params['controller']);
-		define('ACTION', $this->params['action']);
 
 		$this->params = Router::getLink($this->params);
 
