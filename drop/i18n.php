@@ -95,8 +95,8 @@ class I18n extends Object {
 		if (is_null($domain)) {
 			$domain = 'default';
 		}
-		// $this->domain = "eng/default"
-		$this->domain = $this->l10n->locale . DS . $domain;
+		// $this->domain = "default/eng"
+		$this->domain = $domain . DS . $this->l10n->locale;
 
 		if (!isset($this->__domains[$this->__lang][$domain])) {
 			$this->__bindTextDomain($domain);
@@ -196,7 +196,7 @@ class I18n extends Object {
 		$merge = array();
 
 		foreach ($this->l10n->languagePath as $lang) {
-			$file = LOCALE.$lang.DS.$domain;
+			$file = LOCALE.$domain.DS.$lang;
 			$localeDef = LOCALE.$lang;
 
 			if (file_exists($fn = "$file.mo")) {
