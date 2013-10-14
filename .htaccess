@@ -5,3 +5,20 @@ RewriteEngine On
 
 RewriteRule ^(.*)$ index.php?/$1 [QSA,L]
 
+AddType text/css css
+AddType application/javascript js
+
+AddType application/x-font-woff woff
+AddType application/x-font-ttf ttf
+AddType application/x-font-opentype otf
+AddType application/vnd.ms-fontobject eot
+
+AddType image/svg+xml svg
+AddType image/x-icon ico
+AddType image/x-icon icon
+
+AddType image/png png
+AddType image/gif gif
+
+AddType image/jpeg jpeg
+AddType image/jpeg jpg

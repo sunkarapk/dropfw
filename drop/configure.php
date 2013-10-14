@@ -12,6 +12,8 @@
  * @license	MIT
  */
 
+# TODO: Fix the bad "switch" code
+
 class Configure extends Object {
 
 /**
@@ -31,7 +33,7 @@ class Configure extends Object {
 			$config = array($config => $value);
 		}
 
-		foreach ($config as $names => $value) {
+		foreach ($config as $names => $values) {
 			$name = self::configVarNames($names);
 
 			switch (count($name)) {

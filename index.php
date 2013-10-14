@@ -41,7 +41,7 @@
 	define('BASE', HOST.WEBROOT);
 
 /**
- * No need to go to dispatch if it is css or js or img
+ * No need to go to dispatch if it is css or js or img or fonts
  */
 
 	$url = explode("/",URL);
@@ -53,19 +53,8 @@
  */
 	header('Cache-Control: max-age=31104000, public');
 
-	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img") {
-		if($url[0]=='css') {
-			header('Content-Type: text/css');
-			require_once WWW.implode("/",$url);
-		} else if($url[0]=='js') {
-			header('Content-Type: application/x-javascript');
-			require_once WWW.implode("/",$url);
-		} else if($url[0]=='img') {
-			$fmt = explode(".",$url[count($url)-1]);
-			$ext  = $fmt[count($fmt)-1];
-			header('Content-Type: image/'.$ext);
-			readfile(WWW.implode("/",$url));
-		}
+	if($url[0] == "css" || $url[0] == "js" || $url[0] == "img" || $url[0] == "fonts") {
+		readfile(WWW.implode("/", $url));
 	} else {
 		/**
 		 * Include boot.php which loads all the files

@@ -47,7 +47,7 @@
 		<div id="footer">
 			<table><tr>
 				<td style='text-align:left;width:450px;'>www.suncoding.com</td>
-				<td style='text-align:right;width:450px;'>Copyright&#64;2010 Sun Web Dev, Inc.</td>
+				<td style='text-align:right;width:450px;'>Copyright&#64;2010 Pavan Kumar Sunkra</td>
 			</tr></table>
 		</div>
 	</div>

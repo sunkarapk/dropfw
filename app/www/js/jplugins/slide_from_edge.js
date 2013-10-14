@@ -1,3 +1,5 @@
+// TODO: Remove this
+
 jQuery.fn.slideFromEdge = function(element,options) {
 	var settings = {
 		'direction': 'right',
