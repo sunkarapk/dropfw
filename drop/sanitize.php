@@ -1,15 +1,15 @@
 <?php
 /**
- * dropFW(tm) :  PHP Web Development Framework (http://www.suncoding.com)
- * Copyright 2010, Sun Web Dev, Inc.
+ * dropFW :  PHP Web Development Framework
+ * Copyright 2010, Pavan Kumar Sunkara
  *
- * Licensed under The GPLv3 License
+ * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright	Copyright 2010, Sun Web Dev, Inc. (http://www.suncoding.com)
+ * @copyright	Copyright 2010
  * @version	1.0.0
  * @author	Pavan Kumar Sunkara
- * @license	GPLv3
+ * @license	MIT
  */
 
 class Sanitize extends Object {
