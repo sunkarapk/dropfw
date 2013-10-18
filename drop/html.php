@@ -26,6 +26,7 @@ class Html extends Object {
  * @var array
  */
 	var $tags = array(
+		'title' => '<title>%s</title>',
 		'meta' => '<meta%s/>',
 		'metalink' => '<link href="%s"%s/>',
 		'link' => '<a href="%s"%s>%s</a>',
@@ -104,6 +105,7 @@ class Html extends Object {
  * @access private
  */
 	var $__docTypes = array(
+		'html5' => '<!DOCTYPE html>',
 		'html4-strict'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
 		'html4-trans'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
 		'html4-frame'  => '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
@@ -117,6 +119,7 @@ class Html extends Object {
  * Returns a doctype string.
  *
  * Possible doctypes:
+ *   + html5
  *   + html4-strict:  HTML4 Strict.
  *   + html4-trans:  HTML4 Transitional.
  *   + html4-frame:  HTML4 Frameset.
@@ -128,11 +131,20 @@ class Html extends Object {
  * @param  string $type Doctype to use.
  * @return string Doctype.
  */
-	function docType($type = 'xhtml-strict') {
+	function docType($type = 'html5') {
 		if (isset($this->__docTypes[$type])) {
 			return $this->__docTypes[$type];
 		}
 		return null;
+	}
+/**
+ * Creates a title tag
+ *
+ * @param string $title The title of the page
+ * @return string
+ */
+	function title($title) {
+		sprintf($this->tags['title'], $title);
 	}
 /**
  * Creates a link to an external resource and handles basic meta tags
