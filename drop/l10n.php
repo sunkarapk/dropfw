@@ -377,8 +377,8 @@ class L10n extends Object {
 		}
 		$this->found = true;
 
-		if (Configure::read('Config.language') === null) {
-			Configure::write('Config.language', $this->lang);
+		if ($configure->read('config.language') === null) {
+			$configure->write('config.language', $this->lang);
 		}
 
 		if ($language) {

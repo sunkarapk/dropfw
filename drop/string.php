@@ -72,7 +72,7 @@ class String extends Object {
 		}
 
 		if (empty($node)) {
-			$node = crc32(Configure::read('Security.salt'));
+			$node = crc32($configure->read('security.salt'));
 		}
 
 		if (function_exists('zend_thread_id')) {

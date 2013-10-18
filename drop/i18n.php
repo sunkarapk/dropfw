@@ -85,7 +85,7 @@ class I18n extends Object {
 			$plural = str_replace("\r\n", "\n", $plural);
 		}
 
-		$language = Configure::read('Config.language');
+		$language = $configure->read('config.language');
 
 		if (($this->__lang && $this->__lang !== $language) || !$this->__lang) {
 			$lang = $this->l10n->get($language);

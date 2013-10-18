@@ -30,7 +30,7 @@ class Router extends Object {
  */
 	public static function connect($url,$params) {
 		$paramsnew = self::extract($url);
-		array_push(self::$map,array($paramsnew,$params));
+		array_push(self::$map, array($paramsnew,$params));
 	}
 
 /**

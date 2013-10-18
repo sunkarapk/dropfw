@@ -69,7 +69,7 @@ class Security extends Object {
 			if (is_string($salt)) {
 				$string = $salt . $string;
 			} else {
-				$string = Configure::read('Security.salt') . $string;
+				$string = $configure->read('security.salt') . $string;
 			}
 		}
 
@@ -110,7 +110,7 @@ class Security extends Object {
 			Error::emptyCipherKey();
 		}
 
-		srand(Configure::read('Security.cipherSeed'));
+		srand($configure->read('security.cipherSeed'));
 		$out = '';
 		$keyLength = strlen($key);
 		for ($i = 0, $textLength = strlen($text); $i < $textLength; $i++) {

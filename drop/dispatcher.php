@@ -39,11 +39,13 @@ class Dispatcher extends Object {
  */
 	function __construct($url = null) {
 		$this->url = $url;
-		if (Configure::read('rewrite')) {
+
+		if ($configure->read('rewrite')) {
 			$this->base = HOST;
 		} else {
-			$this->base = HOST. Configure::read('App.base') .DS;
+			$this->base = HOST. $configure->read('app.base') .DS;
 		}
+
 		$this->params = $this->extract();
 		$this->dispatch();
 	}

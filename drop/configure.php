@@ -19,7 +19,12 @@ class Configure extends Object {
 /**
  * The main variable where all the config infor is stored
  */
-	protected static $info = array();
+	protected $info = array();
+
+/**
+ * Constructor.
+ */
+	function __construct() {}
 
 /**
  * Used to store a dynamic variable in configure instance
@@ -28,25 +33,20 @@ class Configure extends Object {
  * @return void
  * @access public
  */
-	public static function write($config, $value = null) {
+	public function write($config, $value = null) {
 		if (!is_array($config)) {
 			$config = array($config => $value);
 		}
 
 		foreach ($config as $names => $values) {
-			$name = self::configVarNames($names);
+			$name = $this->configVarNames($names);
+			$tmp  = $this->info;
 
-			switch (count($name)) {
-				case 3:
-					self::$info[$name[0]][$name[1]][$name[2]] = $value;
-				break;
-				case 2:
-					self::$info[$name[0]][$name[1]] = $value;
-				break;
-				case 1:
-					self::$info[$name[0]] = $value;
-				break;
+			foreach ($name as $key => $nameval) {
+				$tmp = $tmp[$nameval];
 			}
+
+			$tmp = $value;
 		}
 	}
 
@@ -56,27 +56,19 @@ class Configure extends Object {
  * @return string value of Configure::$var
  * @access public
  */
-	public static function read($var) {
-		$name = self::configVarNames($var);
+	public function read($var) {
+		$name = $this->configVarNames($var);
+		$tmp  = $this->info;
 
-		switch (count($name)) {
-			case 3:
-				if (isset(self::$info[$name[0]][$name[1]][$name[2]])) {
-					return self::$info[$name[0]][$name[1]][$name[2]];
-				}
-			break;
-			case 2:
-				if (isset(self::$info[$name[0]][$name[1]])) {
-					return self::$info[$name[0]][$name[1]];
-				}
-			break;
-			case 1:
-				if (isset(self::$info[$name[0]])) {
-					return self::$info[$name[0]];
-				}
-			break;
+		foreach ($name as $key => $value) {
+			if (array_key_exists($tmp, $value)) {
+				$tmp = $tmp[$value];
+			} else {
+				return null;
+			}
 		}
-		return null;
+
+		return $tmp;
 	}
 
 /**
@@ -85,16 +77,17 @@ class Configure extends Object {
  * @return void
  * @access public
  */
-	public static function delete($var) {
-		$name = self::configVarNames($var);
+	public function delete($var) {
+		$name = $this->configVarNames($var);
+		$tmp  = $this->info;
 
-		if (count($name) > 2) {
-			unset(self::$info[$name[0]][$name[1]][$name[2]]);
-		} else if (count($name) == 2) {
-			unset(self::$info[$name[0]][$name[1]]);
-		} else {
-			unset(self::$info[$name[0]]);
+		foreach ($name as $key => $value) {
+			if (array_key_exists($tmp, $value)) {
+				$tmp = $tmp[$value];
+			}
 		}
+
+		return unset($tmp);
 	}
 
 /**
@@ -103,30 +96,19 @@ class Configure extends Object {
  * @return boolean
  * @access public
  */
-	public static function check($var) {
-		$name = self::configVarNames($var);
-		
-		if(array_key_exists($name[0],self::$info)) {
-			if (count($name) >= 2) {
-				if(array_key_exists($name[1],self::$info[$name[0]])) {
-					if (count($name) > 2) {
-						if(array_key_exists($name[2],self::$info[$name[0]][$name[1]])) {
-							return true;
-						} else {
-							return false;
-						}
-					} else {
-						return true;
-					}
-				} else {
-					return false;
-				}
+	public function check($var) {
+		$name = $this->configVarNames($var);
+		$tmp  = $this->info;
+
+		foreach ($name as $key => $value) {
+			if (array_key_exists($value, $tmp)) {
+				$tmp = $tmp[$value];
 			} else {
-				return true;
+				return false;
 			}
-		} else {
-			return false;
 		}
+
+		return true;
 	}
 
 /**
@@ -135,7 +117,7 @@ class Configure extends Object {
  * @return array Name separated in items through dot notation
  * @access private
  */
-	protected static function configVarNames($name) {
+	protected function configVarNames($name) {
 		if (is_string($name)) {
 			if (strpos($name, ".")) {
 				return explode(".", $name);

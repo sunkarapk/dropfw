@@ -103,7 +103,7 @@ class Sanitize extends Object {
 	public static function html($string, $options = array()) {
 		static $defaultCharset = false;
 		if ($defaultCharset === false) {
-			$defaultCharset = Configure::read('App.encoding');
+			$defaultCharset = $configure->read('app.encoding');
 			if ($defaultCharset === null) {
 				$defaultCharset = 'UTF-8';
 			}
@@ -346,7 +346,7 @@ class Sanitize extends Object {
 
 		static $defaultCharset = false;
 		if ($defaultCharset === false) {
-			$defaultCharset = Configure::read('App.encoding');
+			$defaultCharset = $configure->read('app.encoding');
 			if ($defaultCharset === null) {
 				$defaultCharset = 'UTF-8';
 			}

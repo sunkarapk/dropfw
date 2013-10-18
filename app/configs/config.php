@@ -12,7 +12,7 @@
  * @license	MIT
  */
 
-	Configure::write('App.Name', 'dropFW Docs');
+	$configure->write('app.Name', 'dropFW Docs');
 
 /**
  * Configuration about debugging
@@ -21,7 +21,7 @@
  * 1 - Only PHP errors and warnings
  * 2 - Print SQL queries along with PHP errors and warnings
  */
-	Configure::write('debug', 2);
+	$configure->write('debug', 2);
 
 /**
  * Configurations about including library files and Rewrite support
@@ -32,55 +32,55 @@
 /**
  * Configuration for rewrite support
  */
-	Configure::write('rewrite',$redirection);
+	$configure->write('rewrite', $redirection);
 
 /**
  * Base script for all URL's
  * generally index.php
  * If changed here, It needs to be changed in .htaccess too
  */
-	Configure::write('App.base', 'index.php');
+	$configure->write('app.base', 'index.php');
 
 /**
  * Configuration for various libraries
  */	
-	Configure::write('lib.acl', true);
+	$configure->write('lib.acl', true);
 	
-	Configure::write('lib.cookie', true);
+	$configure->write('lib.cookie', true);
 
-	Configure::write('lib.captcha', true);
+	$configure->write('lib.captcha', true);
 
-	Configure::write('lib.email', true);
+	$configure->write('lib.email', true);
 	
-	Configure::write('lib.file', true);
+	$configure->write('lib.file', true);
 
-	Configure::write('lib.json', true);
+	$configure->write('lib.json', true);
 
-	Configure::write('lib.html', true);
+	$configure->write('lib.html', true);
 
-	Configure::write('lib.logger', true);
+	$configure->write('lib.logger', true);
 
-	Configure::write('lib.pay', true);
+	$configure->write('lib.pay', true);
 	
-	Configure::write('lib.rss', true);
+	$configure->write('lib.rss', true);
 	
-	Configure::write('lib.session', true);
+	$configure->write('lib.session', true);
 
-	Configure::write('lib.xml', true);
+	$configure->write('lib.xml', true);
 
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYhG93b0qyJfIxfs2guVoUuiR2G0FgaC9mi');
+	$configure->write('security.salt', 'DYhG93b0qyJfIxfs2guVoUuiR2G0FgaC9mi');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '7685930965745382496749683645');
+	$configure->write('security.cipherSeed', '7685930965745382496749683645');
 
 /**
  * Configuration for internationalizationa and localization
  */
-	Configure::write('Config.language','eng');
+	$configure->write('config.language','eng');
 
 ?>

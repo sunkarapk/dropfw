@@ -18,7 +18,7 @@ class DocsController extends Controller
 	var $helpers = array('Html');
 
 	function beforeFilter() {
-		$this->pageTitle = Configure::read('App.Name');
+		$this->pageTitle = $configure->read('app.Name');
 	}
 
 	function home() { }

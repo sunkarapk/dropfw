@@ -20,9 +20,11 @@
 	
 /**
  * Basic class for writing and reading configurations
- * Usage: "Configure::"
+ * Usage: "$Configure->"
  */
 	require_once CORE.'configure.php';
+
+	$configure = new Configure();
 
 	// File for configuration in webAPP
 	require_once CONFIGS.'config.php';
@@ -34,7 +36,7 @@
  * Basic class for Access control lists
  * Usage: "$ACL->"
  */	
-	if(Configure::read('lib.acl')) {
+	if($configure->read('lib.acl')) {
 		require_once CORE.'acl.php';
 	}
 	
@@ -42,7 +44,7 @@
  * Basic class for using cookie variables
  * Usage: "$Cookie->"
  */
-	if(Configure::read('lib.cookie')) {
+	if($configure->read('lib.cookie')) {
 		require_once CORE.'cookie.php';
 	}
 
@@ -50,7 +52,7 @@
  * Basic class for using captcha
  * Usage: "$Captcha->"
  */
-	if(Configure::read('lib.captcha')) {
+	if($configure->read('lib.captcha')) {
 		require_once CORE.'captcha.php';
 	}
 
@@ -82,7 +84,7 @@
  * Basic class for sending emails in PHP
  * Usage: "$Email->"
  */
-	if(Configure::read('lib.email')) {
+	if($configure->read('lib.email')) {
 		require_once CORE.'email.php';
 	}
 	
@@ -90,7 +92,7 @@
  * Basic class for file handling
  * Usage: "$File->"
  */
-	if(Configure::read('lib.file')) {
+	if($configure->read('lib.file')) {
 		require_once CORE.'file.php';
 	}
 
@@ -98,7 +100,7 @@
  * Basic class for HTML helper
  * Usage: "$HTML->"
  */
-	if(Configure::read('lib.html')) {
+	if($configure->read('lib.html')) {
 		require_once CORE.'html.php';
 	}
 
@@ -112,7 +114,7 @@
  * Basic class for manipulating json
  * Usage: "$JSON->"
  */	
-	if(Configure::read('lib.json')) {
+	if($configure->read('lib.json')) {
 		require_once CORE.'json.php';
 	}
 	
@@ -132,7 +134,7 @@
  * Basic class for logging objects
  * Usage: "$Logger->"
  */	
-	if(Configure::read('lib.logger')) {
+	if($configure->read('lib.logger')) {
 		require_once CORE.'logger.php';
 	}
 
@@ -146,7 +148,7 @@
  * Basic class for using payment modules
  * Usage: "$Pay->"
  */	
-	if(Configure::read('lib.pay')) {
+	if($configure->read('lib.pay')) {
 		require_once CORE.'pay.php';
 	}
 	
@@ -154,7 +156,7 @@
  * Basic class for using RSS feed
  * Usage: "$RSS->"
  */
-	if(Configure::read('lib.rss')) {
+	if($configure->read('lib.rss')) {
 		require_once CORE.'rss.php';
 	}
 
@@ -180,7 +182,7 @@
  * Basic class for using session variables
  * Usage: "$Session->"
  */
-	if(Configure::read('lib.session')) {
+	if($configure->read('lib.session')) {
 		require_once CORE.'session.php';
 	}
 
@@ -218,7 +220,7 @@
  * Basic class for using XML
  * Usage: "$XML->"
  */
-	if(Configure::read('lib.xml')) {
+	if($configure->read('lib.xml')) {
 		require_once CORE.'xml.php';
 	}
 

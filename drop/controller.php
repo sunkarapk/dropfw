@@ -173,6 +173,7 @@ class Controller extends Object {
 		if ($this->viewPath == null) {
 			$this->viewPath = VIEWS.Inflector::underscore($this->name).DS;
 		}
+		
 		$this->modelClass = Inflector::classify($this->name);
 		$this->modelKey = Inflector::underscore($this->modelClass);
 
